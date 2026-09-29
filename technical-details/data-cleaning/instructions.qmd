@@ -1,0 +1,7 @@
+# Introduction and Motivation
+
+Data cleaning is a critical step in any data analysis or machine learning pipeline. It ensures that the dataset is accurate, consistent, and ready for meaningful analysis. In this project, the raw data from the WHO API contains global health indicators related to chronic diseases, including diabetes prevalence, hypertension control, and BMI. While rich in detail, the raw dataset presented several challenges such as missing values, duplicate entries, inconsistent formats, and irrelevant features that could obscure patterns and relationships among key health indicators.
+
+The motivation for cleaning this data stems from the need to create a high-quality dataset capable of supporting reliable insights and accurate predictive models. By addressing issues like data redundancy and irrelevant features, the cleaning process aims to enhance the integrity and interpretability of the data. 
+
+The cleaned dataset will serve as the foundation for supervised learning tasks, such as binary and multiclass classification, and unsupervised learning techniques, such as clustering. Moreover, by creating meaningful features and consistent formats, the data cleaning process helps establish a clear structure for analysis, facilitating deeper exploration of global health patterns and informing strategies for chronic disease management. Ultimately, this step transforms raw data into a reliable and actionable resource for achieving the project’s objectives.

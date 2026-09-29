@@ -1,0 +1,197 @@
+## Introduction and Motivation  
+
+The supervised learning section of this project aims to explore and evaluate various predictive models to address distinct classification and regression problems related to health risk prediction based on clinical and demographic features. This section is divided into three core tasks: **binary classification**, **multiclass classification**, and **regression analysis**. Each task targets a specific predictive problem while leveraging models like **Logistic Regression**, **Random Forest**, and **Gradient Boosting**. The ultimate goal is to develop robust, interpretable, and generalizable models that can aid in health outcome predictions.
+
+---
+
+### **Binary Classification: Risk Level Prediction**  
+
+The first task focuses on predicting `Risk Level` (`Low Risk` or `High Risk`), framed as a binary classification problem. The dependent variable is `risk_level`, derived from specific thresholds of health indicators like `BMI` and `Diabetes_Crude`. By training models such as **Logistic Regression** and **Random Forest**, I aim to explore whether a linear or non-linear approach better captures the underlying patterns in the dataset. Evaluative metrics such as **accuracy**, **precision**, **recall**, and **F1-score** are used to assess model performance. The purpose of this section is to establish a strong predictive baseline, identify critical features through feature importance analysis, and ensure that the models generalize well by conducting cross-validation and robustness tests.
+
+---
+
+### **Multiclass Classification: Health Status Categorization**  
+
+The second task involves **Multiclass Classification**, where the target variable `health_status_encoded` includes three classes: `Low`, `Moderate`, and `High health risk`. This task is inherently more complex due to overlapping class boundaries and potential feature interactions. To address this, I applied **Random Forest**, **Logistic Regression**, and **Gradient Boosting** models. The analysis focuses on evaluating classification performance using **confusion matrices**, **precision**, **recall**, and **F1-scores** for each class. **Feature importance analysis** further reveals key drivers of health risk predictions. The inclusion of new features such as `Gender` and `Hypertension_Prevalence` assesses the impact of expanding the feature set. **Hyperparameter tuning** is conducted to enhance model performance, ultimately guiding the selection of the best multiclass classification model.
+
+---
+
+### **Regression: Diabetes Prevalence Prediction**  
+
+The final task addresses **Regression Analysis**, targeting the continuous variable `Diabetes_Crude`, representing the crude prevalence of diabetes in the population. This task aims to predict diabetes prevalence based on key health metrics, including `BMI`, `Hypertension_Control`, and `Gender`. I applied **Linear Regression**, **Random Forest Regressor**, and **Gradient Boosting Regressor** to explore the relationships between the predictors and the target variable. Model performance is evaluated using metrics such as Mean Absolute Error (**MAE**), Mean Squared Error (**MSE**), and **R²** scores. Visual diagnostics such as **residual plots** and **prediction scatter plots** provide additional insight into the models' effectiveness. This analysis helps quantify the contribution of individual health factors to diabetes prevalence, offering actionable insights for public health and clinical decision-making.
+
+---
+
+Overall, this supervised learning framework demonstrates a comprehensive approach to predictive modeling across classification and regression tasks. The goal is to leverage data-driven methods to extract meaningful patterns, validate model performance through rigorous testing, and support health-related policy decisions through interpretable and robust predictive models.
+
+## Overview of Methods
+
+The data preprocessing step was essential to ensure that the selected features were both relevant and well-suited for supervised learning models, including binary classification, multiclass classification, and regression tasks. The process involved feature selection, standardization, and encoding of categorical variables, all guided by insights gained from the exploratory data analysis (EDA), particularly the correlation heatmap.
+
+### **Feature Selection**  
+Based on the correlation heatmap analysis, features with strong or moderate correlations with key health indicators were retained, while redundant or weakly correlated features were dropped. Specifically, `Diabetes_AgeStd` was removed due to its near-perfect correlation ($0.96$) with `Diabetes_Crude`, making it redundant. Similarly, `Hypertension_Treatment` was excluded because of its high correlation ($0.89$) with `Hypertension_Control`. This reduction in feature dimensionality helped minimize multicollinearity, improving model interpretability and efficiency.
+
+The features retained for further analysis included `BMI`, `Diabetes_Crude`, `Hypertension_Control`, `Hypertension_Prevalence`, and `Gender`. These variables were selected due to their established relevance in predicting chronic disease outcomes such as diabetes and hypertension. By focusing on these key predictors, the model development process became more streamlined, reducing the risk of overfitting.
+
+### **Standardization**  
+Since the selected features had varying scales, standardization was performed to ensure fair model training and improve numerical stability. The continuous variables `BMI`, `Diabetes_Crude`, `Hypertension_Control`, and `Hypertension_Prevalence` were standardized using `StandardScaler`, transforming them to have a mean of $0$ and a standard deviation of $1$. This scaling process ensured that no single feature dominated the learning process due to differences in magnitude.
+
+### **Encoding Categorical Variables**  
+Categorical variables were encoded to make them suitable for machine learning models. `Gender` and `health_status` were label-encoded, transforming these categories into numerical values. Specifically, `Gender` was encoded as $0$ (Male) and $1$ (Female), while `health_status` was encoded into numerical classes representing different health risk levels (`Low`, `Moderate`, `High`). This encoding process enabled the models to interpret these categorical features as meaningful predictors.
+
+By following this comprehensive preprocessing pipeline, the dataset was prepared for effective model development across classification and regression tasks. This approach ensured that the models built on this preprocessed data were not only accurate but also interpretable and generalizable.
+
+### **Random Forest**
+
+Random Forest is an ensemble learning method that builds multiple decision trees and combines their outputs to improve prediction accuracy and reduce overfitting. It is useful for both classification and regression tasks.
+
+---
+
+**Classification:**
+
+$$
+\hat{y} = \text{mode} \left( \{ T_i(x) \}_{i=1}^{N} \right)
+$$
+
+**Regression:** Use average prediction.
+
+$$
+\hat{y} = \frac{1}{N} \sum_{i=1}^{N} T_i(x)
+$$
+
+Where:  
+- $\hat{y}$: Final prediction  
+- $T_i(x)$: Prediction from the $i^{th}$ tree  
+- $N$: Total number of trees  
+- $\text{mode}$: Majority voting function
+
+---
+
+**Information Gain (Classification)**
+$$
+IG(D, A) = H(D) - \sum_{v \in A} \frac{|D_v|}{|D|} H(D_v)
+$$
+
+Where:  
+- $IG(D, A)$: Information gain of feature $A$  
+- $H(D)$: Entropy of dataset $D$  
+- $D_v$: Subset of $D$ after split by feature $A$  
+
+**Gini Impurity (Classification)**
+$$
+Gini(D) = 1 - \sum_{k=1}^{K} p_k^2
+$$
+
+Where:  
+- $p_k$: Probability of class $k$  
+- $K$: Number of classes  
+
+---
+
+**Feature Importance Calculation**
+
+The feature importance score for feature $j$ is calculated by the total decrease in Gini impurity across all trees:
+
+$$
+I_j = \sum_{t=1}^{N} \Delta Gini(t, j)
+$$
+
+Where:  
+- $I_j$: Importance score of feature $j$  
+- $\Delta Gini(t, j)$: Gini decrease at node $t$ using feature $j$  
+- $N$: Number of decision trees  
+
+
+### **Logistic Regression**  
+
+Logistic Regression is a supervised learning algorithm used for binary and multi-class classification. It predicts the probability that a sample belongs to a particular class using the logistic (sigmoid) function.  
+
+---
+
+**1. Model Representation**  
+
+Logistic regression models the relationship between features and the target using a linear combination of features:  
+
+$$
+z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_n x_n
+$$
+
+Where:  
+- $z$: Linear combination of features  
+- $\beta_i$: Model coefficients  
+- $x_i$: Feature values  
+
+---
+
+**2. Sigmoid Function**  
+
+The linear output $z$ is passed through the **sigmoid function** to obtain the probability:  
+
+$$
+P(y=1|X) = \sigma(z) = \frac{1}{1 + e^{-z}}
+$$
+
+Where:  
+- $P(y=1|X)$: Probability of the positive class  
+- $\sigma(z)$: Sigmoid function  
+
+---
+
+**3. Decision Rule**  
+
+To make a prediction, compare the probability to a threshold (typically 0.5):  
+
+$$
+\hat{y} = 
+\begin{cases} 
+1 & \text{if } P(y=1|X) \geq 0.5 \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+---
+
+### **Gradient Boosting**
+
+Gradient Boosting is an ensemble learning technique that builds models sequentially, where each new model corrects the errors of the previous ones. It works for both regression and classification tasks by combining multiple weak models (typically decision trees) into a strong model.
+
+---
+
+**1. Start with a Simple Model**
+
+The initial prediction is usually a constant value, such as the average value for regression:
+
+$$
+F_0(x) = \arg \min_{\gamma} \sum_{i=1}^{m} L(y_i, \gamma)
+$$
+
+Where:  
+- $F_0(x)$: Initial prediction  
+- $L(y_i, \gamma)$: Loss function between true value $y_i$and prediction $\gamma$ 
+
+---
+
+**2. Iteratively Update the Model**
+
+Each new tree corrects the previous model’s errors by minimizing the loss function $L(y, F(x))$. The update rule is:  
+
+$$
+F_t(x) = F_{t-1}(x) + \eta h_t(x)
+$$
+
+Where:  
+- $F_t(x)$: Current model  
+- $F_{t-1}(x)$: Previous model  
+- $h_t(x)$: New tree (weak learner)  
+- $\eta$: Learning rate (controls update size)  
+
+---
+
+**3. Final Prediction**
+
+After $T$ iterations, the final model becomes:  
+
+$$
+F_T(x) = F_0(x) + \sum_{t=1}^{T} \eta h_t(x)
+$$
+

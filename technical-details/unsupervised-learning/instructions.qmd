@@ -1,0 +1,182 @@
+## Introduction and Motivation
+
+This analysis focuses on understanding and evaluating the clustering structure of health status levels based on `BMI` and diabetes prevalence (`Diabetes_Crude`). The health status levels—`Low Risk`, `Moderate Risk`, and `High Risk`—are predefined using a classification function that combines thresholds for `BMI` and `Diabetes_Crude`. These classifications provide a foundational understanding of the population's health risks related to chronic diseases like diabetes and cardiovascular conditions. However, the goal of this analysis is to explore whether unsupervised learning methods, such as **PCA**, **t-SNE**, **K-Means**, **DBSCAN**, and **hierarchical clustering**, can uncover additional patterns within the data or validate these predefined categories.
+
+### **Context and Goals**
+In public health and clinical applications, identifying high-risk populations is critical for targeted interventions and resource allocation. `BMI` and `Diabetes_Crude` are widely recognized indicators of health risk. `BMI` reflects an individual's body weight in relation to their height, while `Diabetes_Crude` indicates the unadjusted prevalence of diabetes in a population. Together, these features capture critical aspects of health risks related to metabolic diseases. However, reliance on predefined thresholds (e.g., `BMI` ≥ 30 for `High Risk`) may oversimplify the complexity of health outcomes. 
+
+The primary objective of this analysis is to leverage unsupervised learning methods to:  
+
+1. Examine whether natural clusters in the data align with the predefined health status categories.  
+   
+2. Investigate whether the clustering methods can uncover hidden patterns or subcategories within the predefined levels.  
+
+3. Evaluate the effectiveness of different clustering techniques—**K-Means**, **DBSCAN**, and **hierarchical clustering** — by comparing their ability to group individuals into meaningful clusters and relate these clusters to the original health status levels.  
+
+---
+
+### **Motivation**
+Clustering analysis is a powerful tool for identifying patterns in datasets where labels may be arbitrary or incomplete. By applying these methods to health data, this project seeks to:
+
+- Validate the thresholds used to define health status levels and explore whether they align with natural groupings in the data.  
+
+- Highlight potential misclassifications or inconsistencies in the predefined categories.  
+
+- Provide actionable insights for refining classification methods and improving public health strategies.  
+
+This analysis is crucial for advancing our understanding of health data and ensuring that the classifications used for policy and clinical decisions are both data-driven and reflective of real-world complexities.
+
+## Overview of Methods
+
+### Principal Component Analysis (PCA)
+
+**Principal Component Analysis (PCA)** is a dimensionality reduction technique used to simplify large datasets by transforming them into a smaller set of uncorrelated variables called **principal components**. It retains as much variance in the data as possible, making it widely used for data preprocessing, visualization, and noise reduction.
+
+PCA works by projecting the data onto a new coordinate system where each direction (principal component) captures the maximum variance.  
+
+#### Steps of PCA:
+
+1. **Standardization**: Standardize the data to ensure each feature contributes equally.  
+2. **Covariance Matrix**: Calculate the covariance matrix to identify relationships between features.  
+   - Covariance matrix formula:  
+$$
+     C = (1 / m) X^T X
+$$
+
+Where:  
+- $C$: Covariance matrix  
+- $X$: Standardized data matrix  
+- $m$: Number of samples  
+
+1. **Eigenvectors and Eigenvalues**: Solve for the eigenvectors and eigenvalues of the covariance matrix:  
+
+$$
+   C v_i = λ_i v_i
+$$
+
+---
+
+### K-Means
+
+K-Means is a centroid-based clustering algorithm that partitions data into a predefined number of clusters, $k$. It operates iteratively to minimize the **sum of squared distances (Inertia)** between data points and their assigned cluster centroids. Mathematically, the goal is to minimize the objective function:
+
+$$
+Inertia = \sum_{i=1}^{k} \sum_{x \in C_i} \| x - \mu_i \|^2
+$$
+
+- $k$ is the number of clusters
+
+- $C_i$ is the set of points in cluster $i$
+
+- $x$ is a data point in cluster $C_i$
+
+- $\mu_i$ is the centroid of cluster $i$
+
+- $\| x - \mu_i \|$ is the squared Euclidean distance between the data point $x$ and the centroid $\mu_i$
+
+The algorithm begins by initializing $k$ centroids (either randomly or using a method like K-Means++). Each data point is assigned to the nearest centroid, and centroids are recalculated as:
+
+$$
+\mu_i = \frac{1}{|C_i|} \sum_{x \in C_i} x
+$$
+
+where $|C_i|$ is the number of points in cluster $C_i$. This process iterates until centroids converge or a maximum number of iterations is reached.
+
+**Purpose of K-Means**:
+
+The primary goal of K-Means is to identify groups within a dataset where points in the same group are more similar to each other than to points in other groups. K-Means is widely used due to its simplicity and efficiency, particularly for large datasets with spherical-shaped clusters. Its applications span various fields, including customer segmentation, anomaly detection, and document clustering.
+
+**Model Selection Methods: Elbow Method and Silhouette Score**:
+
+Choosing the optimal number of clusters $k$ is a critical step in K-Means. The **Elbow Method** evaluates the total inertia (sum of squared distances) as a function of $k$. As $k$ increases, the inertia decreases because each cluster contains fewer points. However, there is a point where the rate of decrease sharply diminishes, forming an "elbow." This point often indicates the optimal $k$, balancing compact clusters and simplicity.
+
+The **Silhouette Score** provides an additional validation metric for clustering quality. It measures how similar a data point is to its assigned cluster compared to other clusters. For a point $i$, the Silhouette Score $s(i)$ is defined as:
+
+$$
+s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
+$$
+
+where:
+
+- $a(i)$ is the average distance between $i$ and all other points in the same cluster,
+- $b(i)$ is the minimum average distance between $i$ and all points in the nearest cluster.
+
+The overall Silhouette Score is the mean of $s(i)$ for all points in the dataset. A score close to $1$ indicates well-separated clusters, while a score close to $-1$ suggests poor clustering.
+
+**Key Considerations and Trade-offs**:
+
+While K-Means is computationally efficient and easy to implement, it assumes clusters are spherical and equally sized, which may not always be true for real-world data. Additionally, it is sensitive to the initialization of centroids, which can lead to suboptimal solutions. To address this, the algorithm typically uses multiple random initializations (or K-Means++) and selects the best result based on inertia. Moreover, outliers can disproportionately affect centroids, so preprocessing steps like scaling and outlier removal are essential for effective clustering.
+
+In conclusion, K-Means is a powerful and interpretable clustering technique that benefits from tools like the Elbow Method and Silhouette Score for selecting the optimal $k$. These methods ensure that the resulting clusters are meaningful and well-separated, providing valuable insights into the underlying structure of the data.
+
+---
+
+### DBSCAN
+
+DBSCAN (Density-Based Spatial Clustering of Applications with Noise) is a clustering algorithm that identifies clusters based on the density of data points in a feature space. Unlike K-Means, which assumes spherical clusters and requires the number of clusters to be specified in advance, DBSCAN automatically determines the number of clusters and can identify clusters of arbitrary shapes. It is particularly effective for datasets with non-linear boundaries and noise, making it a versatile tool in unsupervised learning.
+
+The algorithm works by categorizing data points into three types: **core points**, **border points**, and **noise points**. A core point is defined as a point that has at least a specified number of neighbors (`MinPts`) within a given radius $\epsilon$. Border points are within the $\epsilon$ radius of a core point but do not have enough neighbors to qualify as core points themselves. Points that are neither core points nor border points are classified as noise. DBSCAN begins by identifying all core points and their neighborhoods and then expands clusters by connecting core points that are **density-reachable**, meaning they can be connected through a path of other core points. Points that do not belong to any cluster are labeled as noise, allowing DBSCAN to effectively separate dense clusters from sparse regions.
+
+The **ε-neighborhood** of a point $p$ is defined as:
+
+$$
+N_{\varepsilon}(p) = \{q \in \text{Dataset} \mid \text{distance}(p, q) \leq \varepsilon \}
+$$
+
+A point $p$ is classified as a **core point** if the size of its ε-neighborhood satisfies:
+
+$$
+|N_{\varepsilon}(p)| \geq \text{MinPts}
+$$
+
+A point $p$ is **density-reachable** from point $q$ if there exists a sequence of points $p_1, p_2, \ldots, p_n$ such that:
+
+$$
+p_1 = q, \quad p_n = p, \quad p_{i+1} \in N_{\varepsilon}(p_i)
+$$
+
+Two points are **density-connected** if there exists a point $o$ from which both are density-reachable.
+
+One of the primary advantages of DBSCAN is its ability to identify the number of clusters automatically without requiring prior specification. It is also capable of detecting noise and separating it from meaningful clusters. These features make DBSCAN well-suited for datasets with irregular cluster shapes or where noise is expected. However, the algorithm's performance heavily depends on the selection of its parameters, $\epsilon$ and `MinPts`. Choosing the right $\epsilon$ is critical, as it determines the radius within which points are considered neighbors. A common approach to selecting $\epsilon$ is using a **k-distance plot**, which plots the distance to the k-th nearest neighbor for each point, helping to identify a suitable threshold. Similarly, `MinPts` should reflect the expected minimum cluster size, balancing the detection of small clusters and noise.
+
+In summary, DBSCAN is a powerful clustering algorithm for datasets with complex structures and noise. It is particularly useful in exploratory data analysis, where the number and shape of clusters are unknown. However, its effectiveness depends on careful parameter selection, which may require domain knowledge or experimentation.
+
+---
+
+### Hierarchical Clustering
+
+Hierarchical clustering is an unsupervised machine learning method used to group data points based on their similarity. It is commonly applied in areas such as market segmentation, bioinformatics, and document clustering. The algorithm builds a hierarchy of clusters that can be visualized using a dendrogram. This method does not require prior knowledge of the number of clusters, making it ideal for exploratory data analysis.
+
+There are two main approaches to hierarchical clustering: **agglomerative** (bottom-up) and **divisive** (top-down). In the agglomerative approach, each data point starts as its own cluster, and clusters are merged iteratively based on a linkage criterion until only one overall cluster remains. Conversely, in the divisive approach, the entire dataset starts as one large cluster, which is recursively split into smaller clusters until each data point forms its own cluster.
+
+The process of merging or splitting clusters is guided by linkage criteria, which determine how distances between clusters are calculated. One common method is **Single Linkage (Minimum Distance)**, where the distance between two clusters is defined as the minimum distance between points in the two clusters:
+
+$$
+d(C_i, C_j) = \min_{x \in C_i, y \in C_j} ||x - y||
+$$
+
+Alternatively, **Complete Linkage (Maximum Distance)** considers the maximum distance between points in two clusters:
+
+$$
+d(C_i, C_j) = \max_{x \in C_i, y \in C_j} ||x - y||
+$$
+
+**Average Linkage (Mean Distance)** computes the average distance between all pairs of points from two clusters:
+
+$$
+d(C_i, C_j) = \frac{1}{|C_i| \cdot |C_j|} \sum_{x \in C_i} \sum_{y \in C_j} ||x - y||
+$$
+
+To determine the optimal number of clusters, several model selection methods are used. The **Elbow Method** involves plotting the within-cluster sum of squares (WCSS) against the number of clusters. The “elbow point,” where WCSS sharply decreases, suggests the optimal number of clusters.
+
+Another common evaluation metric is the **Silhouette Score**, which measures how well data points are clustered by comparing the average intra-cluster distance to the nearest-cluster distance:
+
+$$
+s = \frac{b - a}{\max(a, b)}
+$$
+
+Where:  
+- $a$ is the mean distance between a point and other points in the same cluster.  
+- $b$ is the mean distance between a point and points in the nearest neighboring cluster.
+
+Lastly, **Dendrogram Analysis** provides a visual representation of the clustering process. By examining the structure of the dendrogram, researchers can identify where clusters merge and select a suitable cut-off point based on significant distance increases.

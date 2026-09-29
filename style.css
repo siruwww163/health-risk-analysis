@@ -1,0 +1,17 @@
+/* 使用 ::after 伪元素添加背景图片 */
+body::after {
+    content: ""; /* 必须有 content 属性才能生效 */
+    position: fixed; /* 固定定位 */
+    bottom: 0px;    /* 距离底部 20px */
+    right: 20px;     /* 距离右侧 20px */
+    width: 200px;    /* 图片宽度 */
+    height: 200px;   /* 图片高度 */
+    background-image: url('./health.jpg'); /* 图片路径 */
+    background-size: contain; /* 保持图片比例 */
+    background-repeat: no-repeat; /* 禁止重复显示 */
+    background-position: center; /* 图片居中 */
+    z-index: 1000;   /* 确保图片显示在最前面 */
+    opacity: 0.8;    /* 设置透明度 */
+    pointer-events: none; /* 防止鼠标与图片交互 */
+  }
+  

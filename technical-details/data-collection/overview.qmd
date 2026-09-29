@@ -1,0 +1,25 @@
+# Motivation  
+
+Chronic diseases pose some of the greatest challenges to global health[@clark2003management]. Unlike acute conditions, they develop gradually and persist for extended periods, often leading to serious complications, reduced quality of life, and increased mortality[@bengmark2004acute]. Their widespread impact extends beyond individuals, burdening healthcare systems and exacerbating global health inequities[@mcphail2016multimorbidity]. Conditions such as diabetes, heart disease, and hypertension are particularly concerning due to their rising prevalence and profound social and economic consequences.
+
+Despite the vast amounts of health data collected by organizations like the World Health Organization (WHO), much of this data remains fragmented and underutilized[@de1996anthropometric]. Essential health indicators are often scattered across various sources, making it difficult to form a complete picture of the global burden of chronic diseases. This project was motivated by the need to bridge that gap by creating a unified dataset that integrates key chronic disease indicators.  
+
+Health data tells compelling stories. For example, a rising average BMI in a country could signal the onset of a diabetes epidemic[@bmi_diabetes_nih]. An increase in hypertension prevalence might foreshadow a surge in heart attacks or strokes[@fuchs2019hypertension]. These indicators act like warning signals, flashing on a control panel—if monitored and interpreted correctly, they can guide timely public health interventions, inform resource allocation, and shape life-saving policies.  
+
+However, effective health policies require more than isolated statistics. They demand a comprehensive, data-driven understanding of how chronic diseases interact with demographic factors, geographic locations, and time trends. This project was driven by the belief that **integrated data leads to deeper health insights.** By building a comprehensive dataset from WHO’s publicly available statistics, I sought to explore the following questions:  
+
+- How accurately can chronic disease risks be predicted based on health indicators like BMI, diabetes prevalence, and hypertension control?  
+
+- Which features contribute the most to predicting chronic disease outcomes, and how do their impacts differ across models?  
+
+- Can binary classification models effectively distinguish between low-risk and high-risk individuals?  
+
+- How well can multiclass classification models categorize individuals into specific health risk levels based on integrated health data?  
+
+- Can clustering methods uncover hidden patterns in chronic disease data, such as emerging risk groups not defined by existing health indicators?  
+
+Chronic diseases are more than just statistics—they affect real people, families, and communities. Addressing these persistent health challenges requires transforming global health data into actionable insights. This project aims to bridge the gap between health data and meaningful solutions by building and evaluating machine learning models that predict chronic disease risks using key indicators such as BMI, diabetes prevalence, and hypertension control.  
+
+The primary objective is to create a clean, well-preprocessed dataset by handling multicollinearity, selecting relevant features, and standardizing variables. Supervised learning models will be developed for binary classification to distinguish between low-risk and high-risk individuals, multiclass classification to categorize health risk levels, and regression analysis to predict continuous health outcomes. Unsupervised learning techniques like K-Means, DBSCAN, and Hierarchical Clustering will uncover hidden patterns, while PCA and t-SNE will enhance data visualization and interpretability.  
+
+Model evaluation will involve metrics such as accuracy, precision, recall, F1-score, R², and Silhouette scores. The best-performing models will be selected based on comparative analysis. Insights gained from this analysis will inform public health strategies, guide future research, and highlight critical features driving chronic disease risks. Through this project, I hope to uncover meaningful stories hidden within global health statistics, supporting efforts toward a healthier and more equitable world.

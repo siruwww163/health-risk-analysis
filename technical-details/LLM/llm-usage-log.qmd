@@ -1,0 +1,18 @@
+### LLM Usage Log  
+
+The following section highlights how LLM tools, such as ChatGPT, were utilized to support various aspects of this project, including brainstorming, writing, code assistance, and debugging and literature search.  
+
+#### **Brainstorming**  
+To establish a clear direction for the project, LLM tools were used to brainstorm and refine the research questions for the dataset. ChatGPT provided guidance on developing meaningful research questions that align with the data structure and project goals. This step ensured that the analysis focused on relevant and impactful areas.  
+
+#### **Writing**  
+- **Unsupervised Learning Analysis**: I requested ChatGPT's assistance in analyzing the visualization results of K-Means clustering. Specifically, ChatGPT helped explain the occurrence of uniform clusters in the t-SNE visualization and provided insights into the reasons behind the observed patterns.  
+- **Supervised Learning Explanation**: For the supervised learning portion, I asked ChatGPT to explain the unusually high accuracy (accuracy = 1) observed in the Random Forest and Gradient Boosting models. ChatGPT provided explanations for potential causes, including the likelihood of overfitting, and suggested methods such as introducing noise and cross-validation to verify the model's robustness.  
+- **Mathematical Methods**: ChatGPT was also consulted for detailed explanations and formulas of the supervised and unsupervised learning methods applied in the project.  
+
+#### **Code**  
+- **LaTeX Formulas**: ChatGPT provided LaTeX code for key mathematical formulas used in the methodology section of the report, ensuring the equations were correctly formatted and clear.  
+- **Debugging Assistance**: During implementation, I requested ChatGPT's help to debug specific Python code errors, streamline sections of code, and improve its efficiency. 
+
+#### **Literature Search**  
+To strengthen the theoretical foundation of the project, I used ChatGPT to search for relevant academic papers on machine learning applications in healthcare. This process involved generating queries for topics such as "health risk prediction," "chronic disease management," and "machine learning in healthcare." ChatGPT provided summaries, bibliographic details, and direct download links for selected research papers, streamlining the literature review process and enabling an in-depth exploration of related work.

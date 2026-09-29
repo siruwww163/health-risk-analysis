@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>instructions – DSAN-5000: Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../assets/gu-logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7e3a7d1ccd1cb4cec3a55483575ed2e3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../style.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">DSAN-5000: Project</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../xtra/multiclass-portfolio-website/index.html"> 
+<span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../report/report.html"> 
+<span class="menu-text">Report</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-technical-details" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Technical details</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-technical-details">    
+        <li>
+    <a class="dropdown-item" href="../../technical-details/data-collection/main.html">
+ <span class="dropdown-text">Data-collection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/data-cleaning/main.html">
+ <span class="dropdown-text">Data-cleaning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/eda/main.html">
+ <span class="dropdown-text">Exploratory Data Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/unsupervised-learning/main.html">
+ <span class="dropdown-text">Unsupervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/supervised-learning/main.html">
+ <span class="dropdown-text">Supervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/progress-log.html">
+ <span class="dropdown-text">Progress Log</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/LLM/main.html">
+ <span class="dropdown-text">LLM usage Log</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-and-motivation" id="toc-introduction-and-motivation" class="nav-link active" data-scroll-target="#introduction-and-motivation">Introduction and Motivation</a>
+  <ul class="collapse">
+  <li><a href="#context-and-goals" id="toc-context-and-goals" class="nav-link" data-scroll-target="#context-and-goals"><strong>Context and Goals</strong></a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><strong>Motivation</strong></a></li>
+  </ul></li>
+  <li><a href="#overview-of-methods" id="toc-overview-of-methods" class="nav-link" data-scroll-target="#overview-of-methods">Overview of Methods</a>
+  <ul class="collapse">
+  <li><a href="#principal-component-analysis-pca" id="toc-principal-component-analysis-pca" class="nav-link" data-scroll-target="#principal-component-analysis-pca">Principal Component Analysis (PCA)</a></li>
+  <li><a href="#k-means" id="toc-k-means" class="nav-link" data-scroll-target="#k-means">K-Means</a></li>
+  <li><a href="#dbscan" id="toc-dbscan" class="nav-link" data-scroll-target="#dbscan">DBSCAN</a></li>
+  <li><a href="#hierarchical-clustering" id="toc-hierarchical-clustering" class="nav-link" data-scroll-target="#hierarchical-clustering">Hierarchical Clustering</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="introduction-and-motivation" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-and-motivation">Introduction and Motivation</h2>
+<p>This analysis focuses on understanding and evaluating the clustering structure of health status levels based on <code>BMI</code> and diabetes prevalence (<code>Diabetes_Crude</code>). The health status levels—<code>Low Risk</code>, <code>Moderate Risk</code>, and <code>High Risk</code>—are predefined using a classification function that combines thresholds for <code>BMI</code> and <code>Diabetes_Crude</code>. These classifications provide a foundational understanding of the population’s health risks related to chronic diseases like diabetes and cardiovascular conditions. However, the goal of this analysis is to explore whether unsupervised learning methods, such as <strong>PCA</strong>, <strong>t-SNE</strong>, <strong>K-Means</strong>, <strong>DBSCAN</strong>, and <strong>hierarchical clustering</strong>, can uncover additional patterns within the data or validate these predefined categories.</p>
+<section id="context-and-goals" class="level3">
+<h3 class="anchored" data-anchor-id="context-and-goals"><strong>Context and Goals</strong></h3>
+<p>In public health and clinical applications, identifying high-risk populations is critical for targeted interventions and resource allocation. <code>BMI</code> and <code>Diabetes_Crude</code> are widely recognized indicators of health risk. <code>BMI</code> reflects an individual’s body weight in relation to their height, while <code>Diabetes_Crude</code> indicates the unadjusted prevalence of diabetes in a population. Together, these features capture critical aspects of health risks related to metabolic diseases. However, reliance on predefined thresholds (e.g., <code>BMI</code> ≥ 30 for <code>High Risk</code>) may oversimplify the complexity of health outcomes.</p>
+<p>The primary objective of this analysis is to leverage unsupervised learning methods to:</p>
+<ol type="1">
+<li><p>Examine whether natural clusters in the data align with the predefined health status categories.</p></li>
+<li><p>Investigate whether the clustering methods can uncover hidden patterns or subcategories within the predefined levels.</p></li>
+<li><p>Evaluate the effectiveness of different clustering techniques—<strong>K-Means</strong>, <strong>DBSCAN</strong>, and <strong>hierarchical clustering</strong> — by comparing their ability to group individuals into meaningful clusters and relate these clusters to the original health status levels.</p></li>
+</ol>
+<hr>
+</section>
+<section id="motivation" class="level3">
+<h3 class="anchored" data-anchor-id="motivation"><strong>Motivation</strong></h3>
+<p>Clustering analysis is a powerful tool for identifying patterns in datasets where labels may be arbitrary or incomplete. By applying these methods to health data, this project seeks to:</p>
+<ul>
+<li><p>Validate the thresholds used to define health status levels and explore whether they align with natural groupings in the data.</p></li>
+<li><p>Highlight potential misclassifications or inconsistencies in the predefined categories.</p></li>
+<li><p>Provide actionable insights for refining classification methods and improving public health strategies.</p></li>
+</ul>
+<p>This analysis is crucial for advancing our understanding of health data and ensuring that the classifications used for policy and clinical decisions are both data-driven and reflective of real-world complexities.</p>
+</section>
+</section>
+<section id="overview-of-methods" class="level2">
+<h2 class="anchored" data-anchor-id="overview-of-methods">Overview of Methods</h2>
+<section id="principal-component-analysis-pca" class="level3">
+<h3 class="anchored" data-anchor-id="principal-component-analysis-pca">Principal Component Analysis (PCA)</h3>
+<p><strong>Principal Component Analysis (PCA)</strong> is a dimensionality reduction technique used to simplify large datasets by transforming them into a smaller set of uncorrelated variables called <strong>principal components</strong>. It retains as much variance in the data as possible, making it widely used for data preprocessing, visualization, and noise reduction.</p>
+<p>PCA works by projecting the data onto a new coordinate system where each direction (principal component) captures the maximum variance.</p>
+<section id="steps-of-pca" class="level4">
+<h4 class="anchored" data-anchor-id="steps-of-pca">Steps of PCA:</h4>
+<ol type="1">
+<li><strong>Standardization</strong>: Standardize the data to ensure each feature contributes equally.<br>
+</li>
+<li><strong>Covariance Matrix</strong>: Calculate the covariance matrix to identify relationships between features.
+<ul>
+<li>Covariance matrix formula:<br>
+<span class="math display">\[
+C = (1 / m) X^T X
+\]</span></li>
+</ul></li>
+</ol>
+<p>Where:<br>
+- <span class="math inline">\(C\)</span>: Covariance matrix<br>
+- <span class="math inline">\(X\)</span>: Standardized data matrix<br>
+- <span class="math inline">\(m\)</span>: Number of samples</p>
+<ol type="1">
+<li><strong>Eigenvectors and Eigenvalues</strong>: Solve for the eigenvectors and eigenvalues of the covariance matrix:</li>
+</ol>
+<p><span class="math display">\[
+   C v_i = λ_i v_i
+\]</span></p>
+<hr>
+</section>
+</section>
+<section id="k-means" class="level3">
+<h3 class="anchored" data-anchor-id="k-means">K-Means</h3>
+<p>K-Means is a centroid-based clustering algorithm that partitions data into a predefined number of clusters, <span class="math inline">\(k\)</span>. It operates iteratively to minimize the <strong>sum of squared distances (Inertia)</strong> between data points and their assigned cluster centroids. Mathematically, the goal is to minimize the objective function:</p>
+<p><span class="math display">\[
+Inertia = \sum_{i=1}^{k} \sum_{x \in C_i} \| x - \mu_i \|^2
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(k\)</span> is the number of clusters</p></li>
+<li><p><span class="math inline">\(C_i\)</span> is the set of points in cluster <span class="math inline">\(i\)</span></p></li>
+<li><p><span class="math inline">\(x\)</span> is a data point in cluster <span class="math inline">\(C_i\)</span></p></li>
+<li><p><span class="math inline">\(\mu_i\)</span> is the centroid of cluster <span class="math inline">\(i\)</span></p></li>
+<li><p><span class="math inline">\(\| x - \mu_i \|\)</span> is the squared Euclidean distance between the data point <span class="math inline">\(x\)</span> and the centroid <span class="math inline">\(\mu_i\)</span></p></li>
+</ul>
+<p>The algorithm begins by initializing <span class="math inline">\(k\)</span> centroids (either randomly or using a method like K-Means++). Each data point is assigned to the nearest centroid, and centroids are recalculated as:</p>
+<p><span class="math display">\[
+\mu_i = \frac{1}{|C_i|} \sum_{x \in C_i} x
+\]</span></p>
+<p>where <span class="math inline">\(|C_i|\)</span> is the number of points in cluster <span class="math inline">\(C_i\)</span>. This process iterates until centroids converge or a maximum number of iterations is reached.</p>
+<p><strong>Purpose of K-Means</strong>:</p>
+<p>The primary goal of K-Means is to identify groups within a dataset where points in the same group are more similar to each other than to points in other groups. K-Means is widely used due to its simplicity and efficiency, particularly for large datasets with spherical-shaped clusters. Its applications span various fields, including customer segmentation, anomaly detection, and document clustering.</p>
+<p><strong>Model Selection Methods: Elbow Method and Silhouette Score</strong>:</p>
+<p>Choosing the optimal number of clusters <span class="math inline">\(k\)</span> is a critical step in K-Means. The <strong>Elbow Method</strong> evaluates the total inertia (sum of squared distances) as a function of <span class="math inline">\(k\)</span>. As <span class="math inline">\(k\)</span> increases, the inertia decreases because each cluster contains fewer points. However, there is a point where the rate of decrease sharply diminishes, forming an “elbow.” This point often indicates the optimal <span class="math inline">\(k\)</span>, balancing compact clusters and simplicity.</p>
+<p>The <strong>Silhouette Score</strong> provides an additional validation metric for clustering quality. It measures how similar a data point is to its assigned cluster compared to other clusters. For a point <span class="math inline">\(i\)</span>, the Silhouette Score <span class="math inline">\(s(i)\)</span> is defined as:</p>
+<p><span class="math display">\[
+s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(a(i)\)</span> is the average distance between <span class="math inline">\(i\)</span> and all other points in the same cluster,</li>
+<li><span class="math inline">\(b(i)\)</span> is the minimum average distance between <span class="math inline">\(i\)</span> and all points in the nearest cluster.</li>
+</ul>
+<p>The overall Silhouette Score is the mean of <span class="math inline">\(s(i)\)</span> for all points in the dataset. A score close to <span class="math inline">\(1\)</span> indicates well-separated clusters, while a score close to <span class="math inline">\(-1\)</span> suggests poor clustering.</p>
+<p><strong>Key Considerations and Trade-offs</strong>:</p>
+<p>While K-Means is computationally efficient and easy to implement, it assumes clusters are spherical and equally sized, which may not always be true for real-world data. Additionally, it is sensitive to the initialization of centroids, which can lead to suboptimal solutions. To address this, the algorithm typically uses multiple random initializations (or K-Means++) and selects the best result based on inertia. Moreover, outliers can disproportionately affect centroids, so preprocessing steps like scaling and outlier removal are essential for effective clustering.</p>
+<p>In conclusion, K-Means is a powerful and interpretable clustering technique that benefits from tools like the Elbow Method and Silhouette Score for selecting the optimal <span class="math inline">\(k\)</span>. These methods ensure that the resulting clusters are meaningful and well-separated, providing valuable insights into the underlying structure of the data.</p>
+<hr>
+</section>
+<section id="dbscan" class="level3">
+<h3 class="anchored" data-anchor-id="dbscan">DBSCAN</h3>
+<p>DBSCAN (Density-Based Spatial Clustering of Applications with Noise) is a clustering algorithm that identifies clusters based on the density of data points in a feature space. Unlike K-Means, which assumes spherical clusters and requires the number of clusters to be specified in advance, DBSCAN automatically determines the number of clusters and can identify clusters of arbitrary shapes. It is particularly effective for datasets with non-linear boundaries and noise, making it a versatile tool in unsupervised learning.</p>
+<p>The algorithm works by categorizing data points into three types: <strong>core points</strong>, <strong>border points</strong>, and <strong>noise points</strong>. A core point is defined as a point that has at least a specified number of neighbors (<code>MinPts</code>) within a given radius <span class="math inline">\(\epsilon\)</span>. Border points are within the <span class="math inline">\(\epsilon\)</span> radius of a core point but do not have enough neighbors to qualify as core points themselves. Points that are neither core points nor border points are classified as noise. DBSCAN begins by identifying all core points and their neighborhoods and then expands clusters by connecting core points that are <strong>density-reachable</strong>, meaning they can be connected through a path of other core points. Points that do not belong to any cluster are labeled as noise, allowing DBSCAN to effectively separate dense clusters from sparse regions.</p>
+<p>The <strong>ε-neighborhood</strong> of a point <span class="math inline">\(p\)</span> is defined as:</p>
+<p><span class="math display">\[
+N_{\varepsilon}(p) = \{q \in \text{Dataset} \mid \text{distance}(p, q) \leq \varepsilon \}
+\]</span></p>
+<p>A point <span class="math inline">\(p\)</span> is classified as a <strong>core point</strong> if the size of its ε-neighborhood satisfies:</p>
+<p><span class="math display">\[
+|N_{\varepsilon}(p)| \geq \text{MinPts}
+\]</span></p>
+<p>A point <span class="math inline">\(p\)</span> is <strong>density-reachable</strong> from point <span class="math inline">\(q\)</span> if there exists a sequence of points <span class="math inline">\(p_1, p_2, \ldots, p_n\)</span> such that:</p>
+<p><span class="math display">\[
+p_1 = q, \quad p_n = p, \quad p_{i+1} \in N_{\varepsilon}(p_i)
+\]</span></p>
+<p>Two points are <strong>density-connected</strong> if there exists a point <span class="math inline">\(o\)</span> from which both are density-reachable.</p>
+<p>One of the primary advantages of DBSCAN is its ability to identify the number of clusters automatically without requiring prior specification. It is also capable of detecting noise and separating it from meaningful clusters. These features make DBSCAN well-suited for datasets with irregular cluster shapes or where noise is expected. However, the algorithm’s performance heavily depends on the selection of its parameters, <span class="math inline">\(\epsilon\)</span> and <code>MinPts</code>. Choosing the right <span class="math inline">\(\epsilon\)</span> is critical, as it determines the radius within which points are considered neighbors. A common approach to selecting <span class="math inline">\(\epsilon\)</span> is using a <strong>k-distance plot</strong>, which plots the distance to the k-th nearest neighbor for each point, helping to identify a suitable threshold. Similarly, <code>MinPts</code> should reflect the expected minimum cluster size, balancing the detection of small clusters and noise.</p>
+<p>In summary, DBSCAN is a powerful clustering algorithm for datasets with complex structures and noise. It is particularly useful in exploratory data analysis, where the number and shape of clusters are unknown. However, its effectiveness depends on careful parameter selection, which may require domain knowledge or experimentation.</p>
+<hr>
+</section>
+<section id="hierarchical-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchical-clustering">Hierarchical Clustering</h3>
+<p>Hierarchical clustering is an unsupervised machine learning method used to group data points based on their similarity. It is commonly applied in areas such as market segmentation, bioinformatics, and document clustering. The algorithm builds a hierarchy of clusters that can be visualized using a dendrogram. This method does not require prior knowledge of the number of clusters, making it ideal for exploratory data analysis.</p>
+<p>There are two main approaches to hierarchical clustering: <strong>agglomerative</strong> (bottom-up) and <strong>divisive</strong> (top-down). In the agglomerative approach, each data point starts as its own cluster, and clusters are merged iteratively based on a linkage criterion until only one overall cluster remains. Conversely, in the divisive approach, the entire dataset starts as one large cluster, which is recursively split into smaller clusters until each data point forms its own cluster.</p>
+<p>The process of merging or splitting clusters is guided by linkage criteria, which determine how distances between clusters are calculated. One common method is <strong>Single Linkage (Minimum Distance)</strong>, where the distance between two clusters is defined as the minimum distance between points in the two clusters:</p>
+<p><span class="math display">\[
+d(C_i, C_j) = \min_{x \in C_i, y \in C_j} ||x - y||
+\]</span></p>
+<p>Alternatively, <strong>Complete Linkage (Maximum Distance)</strong> considers the maximum distance between points in two clusters:</p>
+<p><span class="math display">\[
+d(C_i, C_j) = \max_{x \in C_i, y \in C_j} ||x - y||
+\]</span></p>
+<p><strong>Average Linkage (Mean Distance)</strong> computes the average distance between all pairs of points from two clusters:</p>
+<p><span class="math display">\[
+d(C_i, C_j) = \frac{1}{|C_i| \cdot |C_j|} \sum_{x \in C_i} \sum_{y \in C_j} ||x - y||
+\]</span></p>
+<p>To determine the optimal number of clusters, several model selection methods are used. The <strong>Elbow Method</strong> involves plotting the within-cluster sum of squares (WCSS) against the number of clusters. The “elbow point,” where WCSS sharply decreases, suggests the optimal number of clusters.</p>
+<p>Another common evaluation metric is the <strong>Silhouette Score</strong>, which measures how well data points are clustered by comparing the average intra-cluster distance to the nearest-cluster distance:</p>
+<p><span class="math display">\[
+s = \frac{b - a}{\max(a, b)}
+\]</span></p>
+<p>Where:<br>
+- <span class="math inline">\(a\)</span> is the mean distance between a point and other points in the same cluster.<br>
+- <span class="math inline">\(b\)</span> is the mean distance between a point and points in the nearest neighboring cluster.</p>
+<p>Lastly, <strong>Dendrogram Analysis</strong> provides a visual representation of the clustering process. By examining the structure of the dendrogram, researchers can identify where clusters merge and select a suitable cut-off point based on significant distance increases.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

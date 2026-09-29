@@ -1,0 +1,28 @@
+# Methods  
+
+This project employed a comprehensive data science workflow, including data collection, preprocessing, analysis, and model evaluation. The key techniques, algorithms, and tools used in this process are outlined below:  
+
+## **Data Collection**  
+Data was sourced from the World Health Organization (WHO)[@who2024], focusing on global health indicators such as BMI, diabetes prevalence, and hypertension statistics. The dataset was compiled by aggregating relevant health metrics across various countries and years to ensure broad coverage and meaningful insights.  
+
+## **Data Preprocessing**  
+The preprocessing stage involved handling missing values, detecting and addressing multicollinearity, and standardizing numerical features using `StandardScaler` from `sklearn`. Categorical variables such as `gender` and `health status` were encoded using label encoding. Strongly correlated features like `Diabetes_AgeStd` and `Hypertension_Treatment` were dropped to prevent redundancy.  
+
+## **Exploratory Data Analysis (EDA)**  
+EDA was conducted using visualization libraries such as `matplotlib`, `seaborn`, and `plotly`. Key insights were derived from correlation matrices, descriptive statistics, and feature importance plots. These analyses guided feature selection and model design decisions.  
+
+## **Machine Learning Models**  
+
+### **Supervised Learning**  
+- **Binary Classification:** Models like Logistic Regression, Random Forest, and Gradient Boosting were developed to distinguish between low-risk and high-risk individuals.  
+- **Multiclass Classification:** The same models were extended to classify individuals into health risk levels (Low, Moderate, High).  
+- **Regression Analysis:** Continuous prediction of diabetes prevalence was performed using models such as Linear Regression, Random Forest Regressor, and Gradient Boosting Regressor.  
+
+### **Unsupervised Learning**  
+- **Dimensionality Reduction:** PCA and t-SNE were applied for better visualization and interpretability of complex data structures.  
+- **Clustering:** Techniques like K-Means, DBSCAN, and Hierarchical Clustering were used to uncover hidden patterns.  
+
+## **Model Evaluation**  
+Performance metrics such as accuracy, precision, recall, F1-score, R², Silhouette scores, and confusion matrices were used to evaluate model performance. Hyperparameter tuning was conducted using `GridSearchCV` to optimize model parameters.  
+
+This integrated approach ensured a robust, data-driven exploration of chronic disease risk factors, providing meaningful insights to inform public health strategies and future research.

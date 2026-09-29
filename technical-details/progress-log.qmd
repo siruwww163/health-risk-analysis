@@ -1,0 +1,120 @@
+---
+title: "Progress log"
+---
+
+Use this page to track your progress and keep a log of your contributions to the project, please update this each time you work on your project, it is generally a good habit to adopt.
+
+If you are working as a team, at the end, you can duplicate the project and add it to your individual portfolio websites. If you do, you **MUST** retain attribution to your teammates. Removing attribution would constitute plagiarism.
+
+
+# **12-07-2024** 
+* [x] Decide the topic
+* [x] Crawl the data from `WHO` API
+* [x] Data Overview
+* [x] Decide the classifications
+
+# **12-08-2024** 
+* [x] Datasets merge
+* [x] Filter relevant columns
+* [x] Remove missing values
+* [x] Drop duplicate rows
+* [x] Correct Data Types
+* [x] Column mapping
+* [x] Define the classifications
+
+# **12-09-2024** 
+* [x] Data summarization
+* [x] Plot the features histogram
+* [x] Plot the multi-class classification pie chart
+* [x] Correlation analysis heatmap
+* [x] PCA and visualization
+* [x] t-SNE and visualization
+* [x] Standardization
+
+# **12-12-2024** 
+* [x] Feature selection
+* [x] standardization
+* [x] Encoding categorical variables
+* [x] Binary classification
+  - * [x] Logistic regression
+  - * [x] Random forest
+  - * [x] Cross validation
+  - * [x] Random forest hyperparameter tuning
+  - * [x] Feature importance analysis
+  - * [x] Confusion matrix
+  - * [x] Simplified feature set
+  - * [x] Noise Injection Test
+  - * [x] Model validation and comparison
+* [x] Multiclass Classification
+  - * [x] Random forest classifier
+  - * [x] Logistic regression
+  - * [x] Gradient Boosting
+  - * [x] Model comparison
+  - * [x] Feature importance analysis
+  - * [x] Hyperparameter tuning
+  - * [x] Model retrain
+  - * [x] Final model comparison
+* [x] Regression
+  - * [x] Linear regression
+  - * [x] Random forest regressor
+  - * [x] Gradient Boosting regressor
+  - * [x] Feature important analysis
+  - * [x] Visualizations - scatter plot of predictions vs true values and residual plot
+
+# **12-13-2024** 
+## Part 1: Dimensionality Reduction
+### PCA
+* [x] Determine the optimal number of principal components
+* [x] Visualize the reduced-dimensional data
+* [x] Analyze and interpret the results
+
+### t-SNE 
+* [x] Experiment with different perplexity values and find optimal perplexity
+* [x] Visualize the t-SNE output to reveal patterns and clusters
+* [x] Compare the results of t-SNE with those from PCA
+
+## Evaluation and Comparison
+* [x] Evaluate the e ectiveness of PCA and t-SNE in preserving data structure
+* [x] Compare the visualization capabilities of both techniques
+* [x] Discuss the trade-o s and scenarios where one technique may perform better than the other
+
+# **12-14-2024** 
+* [x] Data Collection Introduction and motivation, Method, Summary
+* [x] Data Cleaning Introduction and motivation, Method, Summary
+* [x] Supervised Learning Introduction and Method
+* [x] Unsupervised Learning Introduction and Method
+
+## K-Means Clustering
+
+* [x] Use the Elbow Method to identify the number of clusters
+* [x] Use Silhouette Score for further validation
+* [x] Apply the KMeans algorithm with the chosen number of clusters
+* [x] Visualize the clusters using 2D/3D scatter plots
+* [x] Evaluate Silhouette Score for cluster quality
+
+
+# **12-15-2024** 
+
+## DBSCAN Clustering
+* [x] Experiment with different values of `eps` and `min_samples`
+* [x] Apply DBSCAN to the dataset
+* [x] Visualize clustering results, including noise points
+* [x] Compare DBSCAN's performance with K-Means
+* [x] Discuss how DBSCAN handles noise and irregular cluster shapes
+
+## Hierarchical Clustering
+* [x] Find optimal hyperparameters
+* [x] Compare hierarchical clustering with K-Means and DBSCAN
+* [x] Visualize the clusters using 2D/3D scatter plots.
+
+## Explanation
+* [x] Compare the performance of K-Means, DBSCAN, and Hierarchical Clustering
+* [x] Summarize key findings
+* [x] EDA introduction and conclusion
+* [x] LLM utilization summarization
+* [x] Landing Page
+* [x] About Me
+* [x] Report
+* [x] README.md
+
+
