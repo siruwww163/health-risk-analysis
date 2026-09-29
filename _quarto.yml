@@ -7,6 +7,7 @@ project:
 
 website:
   title: "Health Risk Analysis"
+  site-url: "https://siruwww163.github.io/health-risk-analysis/"
   open-graph: true
   twitter-card: true
   favicon: "assets/gu-logo.png"
