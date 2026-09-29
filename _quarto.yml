@@ -6,7 +6,7 @@ project:
     - "*.ipynb"
 
 website:
-  title: "DSAN-5000: Project"
+  title: "Health Risk Analysis Using Machine Learning"
   favicon: "assets/gu-logo.png"
   navbar:
     left:
@@ -28,10 +28,6 @@ website:
             href: technical-details/unsupervised-learning/main.ipynb
           - text: Supervised Learning
             href: technical-details/supervised-learning/main.ipynb
-          - text: Progress Log
-            href: technical-details/progress-log.qmd
-          - text: LLM usage Log
-            href: technical-details/LLM/main.ipynb
 
 format:
   html:
