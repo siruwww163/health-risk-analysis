@@ -6,7 +6,9 @@ project:
     - "*.ipynb"
 
 website:
-  title: "Health Risk Analysis Using Machine Learning"
+  title: "Health Risk Analysis"
+  open-graph: true
+  twitter-card: true
   favicon: "assets/gu-logo.png"
   navbar:
     left:
