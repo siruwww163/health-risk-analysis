@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: docs
   render:
     - "*.qmd"
     - "*.ipynb"
@@ -16,17 +17,17 @@ website:
       - href: report/report.qmd
         text: Report
       - text: "Technical details"
-        menu: 
+        menu:
           - text: Data-collection
-            href: technical-details/data-collection/main.ipynb 
+            href: technical-details/data-collection/main.ipynb
           - text: Data-cleaning
-            href: technical-details/data-cleaning/main.ipynb 
+            href: technical-details/data-cleaning/main.ipynb
           - text: Exploratory Data Analysis
-            href: technical-details/eda/main.ipynb 
+            href: technical-details/eda/main.ipynb
           - text: Unsupervised Learning
-            href: technical-details/unsupervised-learning/main.ipynb 
+            href: technical-details/unsupervised-learning/main.ipynb
           - text: Supervised Learning
-            href: technical-details/supervised-learning/main.ipynb 
+            href: technical-details/supervised-learning/main.ipynb
           - text: Progress Log
             href: technical-details/progress-log.qmd
           - text: LLM usage Log

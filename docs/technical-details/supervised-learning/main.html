@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Supervised Learning – DSAN-5000: Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../assets/gu-logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../style.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">DSAN-5000: Project</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../xtra/multiclass-portfolio-website/index.html"> 
+<span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../report/report.html"> 
+<span class="menu-text">Report</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-technical-details" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Technical details</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-technical-details">    
+        <li>
+    <a class="dropdown-item" href="../../technical-details/data-collection/main.html">
+ <span class="dropdown-text">Data-collection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/data-cleaning/main.html">
+ <span class="dropdown-text">Data-cleaning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/eda/main.html">
+ <span class="dropdown-text">Exploratory Data Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/unsupervised-learning/main.html">
+ <span class="dropdown-text">Unsupervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/supervised-learning/main.html">
+ <span class="dropdown-text">Supervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/progress-log.html">
+ <span class="dropdown-text">Progress Log</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../technical-details/LLM/main.html">
+ <span class="dropdown-text">LLM usage Log</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-and-motivation" id="toc-introduction-and-motivation" class="nav-link active" data-scroll-target="#introduction-and-motivation">Introduction and Motivation</a>
+  <ul class="collapse">
+  <li><a href="#binary-classification-risk-level-prediction" id="toc-binary-classification-risk-level-prediction" class="nav-link" data-scroll-target="#binary-classification-risk-level-prediction"><strong>Binary Classification: Risk Level Prediction</strong></a></li>
+  <li><a href="#multiclass-classification-health-status-categorization" id="toc-multiclass-classification-health-status-categorization" class="nav-link" data-scroll-target="#multiclass-classification-health-status-categorization"><strong>Multiclass Classification: Health Status Categorization</strong></a></li>
+  <li><a href="#regression-diabetes-prevalence-prediction" id="toc-regression-diabetes-prevalence-prediction" class="nav-link" data-scroll-target="#regression-diabetes-prevalence-prediction"><strong>Regression: Diabetes Prevalence Prediction</strong></a></li>
+  </ul></li>
+  <li><a href="#overview-of-methods" id="toc-overview-of-methods" class="nav-link" data-scroll-target="#overview-of-methods">Overview of Methods</a>
+  <ul class="collapse">
+  <li><a href="#feature-selection" id="toc-feature-selection" class="nav-link" data-scroll-target="#feature-selection"><strong>Feature Selection</strong></a></li>
+  <li><a href="#standardization" id="toc-standardization" class="nav-link" data-scroll-target="#standardization"><strong>Standardization</strong></a></li>
+  <li><a href="#encoding-categorical-variables" id="toc-encoding-categorical-variables" class="nav-link" data-scroll-target="#encoding-categorical-variables"><strong>Encoding Categorical Variables</strong></a></li>
+  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest"><strong>Random Forest</strong></a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><strong>Logistic Regression</strong></a></li>
+  <li><a href="#gradient-boosting" id="toc-gradient-boosting" class="nav-link" data-scroll-target="#gradient-boosting"><strong>Gradient Boosting</strong></a></li>
+  </ul></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code</a>
+  <ul class="collapse">
+  <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">Data Preprocessing</a>
+  <ul class="collapse">
+  <li><a href="#feature-selection-1" id="toc-feature-selection-1" class="nav-link" data-scroll-target="#feature-selection-1">Feature Selection</a></li>
+  <li><a href="#standardization-1" id="toc-standardization-1" class="nav-link" data-scroll-target="#standardization-1">Standardization</a></li>
+  <li><a href="#encoding-categorical-variables-1" id="toc-encoding-categorical-variables-1" class="nav-link" data-scroll-target="#encoding-categorical-variables-1">Encoding Categorical Variables</a></li>
+  </ul></li>
+  <li><a href="#binary-classification" id="toc-binary-classification" class="nav-link" data-scroll-target="#binary-classification">Binary Classification</a>
+  <ul class="collapse">
+  <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">Cross Validation</a></li>
+  <li><a href="#hyperparameter-tuning" id="toc-hyperparameter-tuning" class="nav-link" data-scroll-target="#hyperparameter-tuning">Hyperparameter Tuning</a></li>
+  <li><a href="#simplified-feature-set" id="toc-simplified-feature-set" class="nav-link" data-scroll-target="#simplified-feature-set">Simplified Feature Set</a></li>
+  <li><a href="#random-forest-tree-depth-analysis" id="toc-random-forest-tree-depth-analysis" class="nav-link" data-scroll-target="#random-forest-tree-depth-analysis">Random Forest Tree Depth Analysis</a></li>
+  <li><a href="#introducing-noise" id="toc-introducing-noise" class="nav-link" data-scroll-target="#introducing-noise">Introducing Noise</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
+  <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification">Multiclass Classification</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
+  <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model Selection</a></li>
+  </ul></li>
+  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression">Regression</a>
+  <ul class="collapse">
+  <li><a href="#define-features-and-target-for-regression" id="toc-define-features-and-target-for-regression" class="nav-link" data-scroll-target="#define-features-and-target-for-regression">Define Features and Target for Regression</a></li>
+  <li><a href="#model-selection-1" id="toc-model-selection-1" class="nav-link" data-scroll-target="#model-selection-1">Model Selection</a></li>
+  </ul></li>
+  <li><a href="#visualizations" id="toc-visualizations" class="nav-link" data-scroll-target="#visualizations">Visualizations</a>
+  <ul class="collapse">
+  <li><a href="#scatter-plot-of-predictions-vs.-true-values" id="toc-scatter-plot-of-predictions-vs.-true-values" class="nav-link" data-scroll-target="#scatter-plot-of-predictions-vs.-true-values">Scatter Plot of Predictions vs.&nbsp;True Values</a></li>
+  <li><a href="#residual-plot" id="toc-residual-plot" class="nav-link" data-scroll-target="#residual-plot">Residual Plot</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Supervised Learning</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- After digesting the instructions, you can delete this cell, these are assignment instructions and do not need to be included in your final submission.  -->
+<section id="introduction-and-motivation" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-and-motivation">Introduction and Motivation</h2>
+<p>The supervised learning section of this project aims to explore and evaluate various predictive models to address distinct classification and regression problems related to health risk prediction based on clinical and demographic features. This section is divided into three core tasks: <strong>binary classification</strong>, <strong>multiclass classification</strong>, and <strong>regression analysis</strong>. Each task targets a specific predictive problem while leveraging models like <strong>Logistic Regression</strong>, <strong>Random Forest</strong>, and <strong>Gradient Boosting</strong>. The ultimate goal is to develop robust, interpretable, and generalizable models that can aid in health outcome predictions.</p>
+<hr>
+<section id="binary-classification-risk-level-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="binary-classification-risk-level-prediction"><strong>Binary Classification: Risk Level Prediction</strong></h3>
+<p>The first task focuses on predicting <code>Risk Level</code> (<code>Low Risk</code> or <code>High Risk</code>), framed as a binary classification problem. The dependent variable is <code>risk_level</code>, derived from specific thresholds of health indicators like <code>BMI</code> and <code>Diabetes_Crude</code>. By training models such as <strong>Logistic Regression</strong> and <strong>Random Forest</strong>, I aim to explore whether a linear or non-linear approach better captures the underlying patterns in the dataset. Evaluative metrics such as <strong>accuracy</strong>, <strong>precision</strong>, <strong>recall</strong>, and <strong>F1-score</strong> are used to assess model performance. The purpose of this section is to establish a strong predictive baseline, identify critical features through feature importance analysis, and ensure that the models generalize well by conducting cross-validation and robustness tests.</p>
+<hr>
+</section>
+<section id="multiclass-classification-health-status-categorization" class="level3">
+<h3 class="anchored" data-anchor-id="multiclass-classification-health-status-categorization"><strong>Multiclass Classification: Health Status Categorization</strong></h3>
+<p>The second task involves <strong>Multiclass Classification</strong>, where the target variable <code>health_status_encoded</code> includes three classes: <code>Low</code>, <code>Moderate</code>, and <code>High health risk</code>. This task is inherently more complex due to overlapping class boundaries and potential feature interactions. To address this, I applied <strong>Random Forest</strong>, <strong>Logistic Regression</strong>, and <strong>Gradient Boosting</strong> models. The analysis focuses on evaluating classification performance using <strong>confusion matrices</strong>, <strong>precision</strong>, <strong>recall</strong>, and <strong>F1-scores</strong> for each class. <strong>Feature importance analysis</strong> further reveals key drivers of health risk predictions. The inclusion of new features such as <code>Gender</code> and <code>Hypertension_Prevalence</code> assesses the impact of expanding the feature set. <strong>Hyperparameter tuning</strong> is conducted to enhance model performance, ultimately guiding the selection of the best multiclass classification model.</p>
+<hr>
+</section>
+<section id="regression-diabetes-prevalence-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="regression-diabetes-prevalence-prediction"><strong>Regression: Diabetes Prevalence Prediction</strong></h3>
+<p>The final task addresses <strong>Regression Analysis</strong>, targeting the continuous variable <code>Diabetes_Crude</code>, representing the crude prevalence of diabetes in the population. This task aims to predict diabetes prevalence based on key health metrics, including <code>BMI</code>, <code>Hypertension_Control</code>, and <code>Gender</code>. I applied <strong>Linear Regression</strong>, <strong>Random Forest Regressor</strong>, and <strong>Gradient Boosting Regressor</strong> to explore the relationships between the predictors and the target variable. Model performance is evaluated using metrics such as Mean Absolute Error (<strong>MAE</strong>), Mean Squared Error (<strong>MSE</strong>), and <strong>R²</strong> scores. Visual diagnostics such as <strong>residual plots</strong> and <strong>prediction scatter plots</strong> provide additional insight into the models’ effectiveness. This analysis helps quantify the contribution of individual health factors to diabetes prevalence, offering actionable insights for public health and clinical decision-making.</p>
+<hr>
+<p>Overall, this supervised learning framework demonstrates a comprehensive approach to predictive modeling across classification and regression tasks. The goal is to leverage data-driven methods to extract meaningful patterns, validate model performance through rigorous testing, and support health-related policy decisions through interpretable and robust predictive models.</p>
+</section>
+</section>
+<section id="overview-of-methods" class="level2">
+<h2 class="anchored" data-anchor-id="overview-of-methods">Overview of Methods</h2>
+<p>The data preprocessing step was essential to ensure that the selected features were both relevant and well-suited for supervised learning models, including binary classification, multiclass classification, and regression tasks. The process involved feature selection, standardization, and encoding of categorical variables, all guided by insights gained from the exploratory data analysis (EDA), particularly the correlation heatmap.</p>
+<section id="feature-selection" class="level3">
+<h3 class="anchored" data-anchor-id="feature-selection"><strong>Feature Selection</strong></h3>
+<p>Based on the correlation heatmap analysis, features with strong or moderate correlations with key health indicators were retained, while redundant or weakly correlated features were dropped. Specifically, <code>Diabetes_AgeStd</code> was removed due to its near-perfect correlation (<span class="math inline">\(0.96\)</span>) with <code>Diabetes_Crude</code>, making it redundant. Similarly, <code>Hypertension_Treatment</code> was excluded because of its high correlation (<span class="math inline">\(0.89\)</span>) with <code>Hypertension_Control</code>. This reduction in feature dimensionality helped minimize multicollinearity, improving model interpretability and efficiency.</p>
+<p>The features retained for further analysis included <code>BMI</code>, <code>Diabetes_Crude</code>, <code>Hypertension_Control</code>, <code>Hypertension_Prevalence</code>, and <code>Gender</code>. These variables were selected due to their established relevance in predicting chronic disease outcomes such as diabetes and hypertension. By focusing on these key predictors, the model development process became more streamlined, reducing the risk of overfitting.</p>
+</section>
+<section id="standardization" class="level3">
+<h3 class="anchored" data-anchor-id="standardization"><strong>Standardization</strong></h3>
+<p>Since the selected features had varying scales, standardization was performed to ensure fair model training and improve numerical stability. The continuous variables <code>BMI</code>, <code>Diabetes_Crude</code>, <code>Hypertension_Control</code>, and <code>Hypertension_Prevalence</code> were standardized using <code>StandardScaler</code>, transforming them to have a mean of <span class="math inline">\(0\)</span> and a standard deviation of <span class="math inline">\(1\)</span>. This scaling process ensured that no single feature dominated the learning process due to differences in magnitude.</p>
+</section>
+<section id="encoding-categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="encoding-categorical-variables"><strong>Encoding Categorical Variables</strong></h3>
+<p>Categorical variables were encoded to make them suitable for machine learning models. <code>Gender</code> and <code>health_status</code> were label-encoded, transforming these categories into numerical values. Specifically, <code>Gender</code> was encoded as <span class="math inline">\(0\)</span> (Male) and <span class="math inline">\(1\)</span> (Female), while <code>health_status</code> was encoded into numerical classes representing different health risk levels (<code>Low</code>, <code>Moderate</code>, <code>High</code>). This encoding process enabled the models to interpret these categorical features as meaningful predictors.</p>
+<p>By following this comprehensive preprocessing pipeline, the dataset was prepared for effective model development across classification and regression tasks. This approach ensured that the models built on this preprocessed data were not only accurate but also interpretable and generalizable.</p>
+</section>
+<section id="random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest"><strong>Random Forest</strong></h3>
+<p>Random Forest is an ensemble learning method that builds multiple decision trees and combines their outputs to improve prediction accuracy and reduce overfitting. It is useful for both classification and regression tasks.</p>
+<hr>
+<p><strong>Classification:</strong></p>
+<p><span class="math display">\[
+\hat{y} = \text{mode} \left( \{ T_i(x) \}_{i=1}^{N} \right)
+\]</span></p>
+<p><strong>Regression:</strong> Use average prediction.</p>
+<p><span class="math display">\[
+\hat{y} = \frac{1}{N} \sum_{i=1}^{N} T_i(x)
+\]</span></p>
+<p>Where:<br>
+- <span class="math inline">\(\hat{y}\)</span>: Final prediction<br>
+- <span class="math inline">\(T_i(x)\)</span>: Prediction from the <span class="math inline">\(i^{th}\)</span> tree<br>
+- <span class="math inline">\(N\)</span>: Total number of trees<br>
+- <span class="math inline">\(\text{mode}\)</span>: Majority voting function</p>
+<hr>
+<p><strong>Information Gain (Classification)</strong> <span class="math display">\[
+IG(D, A) = H(D) - \sum_{v \in A} \frac{|D_v|}{|D|} H(D_v)
+\]</span></p>
+<p>Where:<br>
+- <span class="math inline">\(IG(D, A)\)</span>: Information gain of feature <span class="math inline">\(A\)</span><br>
+- <span class="math inline">\(H(D)\)</span>: Entropy of dataset <span class="math inline">\(D\)</span><br>
+- <span class="math inline">\(D_v\)</span>: Subset of <span class="math inline">\(D\)</span> after split by feature <span class="math inline">\(A\)</span></p>
+<p><strong>Gini Impurity (Classification)</strong> <span class="math display">\[
+Gini(D) = 1 - \sum_{k=1}^{K} p_k^2
+\]</span></p>
+<p>Where:<br>
+- <span class="math inline">\(p_k\)</span>: Probability of class <span class="math inline">\(k\)</span><br>
+- <span class="math inline">\(K\)</span>: Number of classes</p>
+<hr>
+<p><strong>Feature Importance Calculation</strong></p>
+<p>The feature importance score for feature <span class="math inline">\(j\)</span> is calculated by the total decrease in Gini impurity across all trees:</p>
+<p><span class="math display">\[
+I_j = \sum_{t=1}^{N} \Delta Gini(t, j)
+\]</span></p>
+<p>Where:<br>
+- <span class="math inline">\(I_j\)</span>: Importance score of feature <span class="math inline">\(j\)</span><br>
+- <span class="math inline">\(\Delta Gini(t, j)\)</span>: Gini decrease at node <span class="math inline">\(t\)</span> using feature <span class="math inline">\(j\)</span><br>
+- <span class="math inline">\(N\)</span>: Number of decision trees</p>
+</section>
+<section id="logistic-regression" class="level3">
+<h3 class="anchored" data-anchor-id="logistic-regression"><strong>Logistic Regression</strong></h3>
+<p>Logistic Regression is a supervised learning algorithm used for binary and multi-class classification. It predicts the probability that a sample belongs to a particular class using the logistic (sigmoid) function.</p>
+<hr>
+<p><strong>1. Model Representation</strong></p>
+<p>Logistic regression models the relationship between features and the target using a linear combination of features:</p>
+<p><span class="math display">\[
+z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_n x_n
+\]</span></p>
+<p>Where:<br>
+- <span class="math inline">\(z\)</span>: Linear combination of features<br>
+- <span class="math inline">\(\beta_i\)</span>: Model coefficients<br>
+- <span class="math inline">\(x_i\)</span>: Feature values</p>
+<hr>
+<p><strong>2. Sigmoid Function</strong></p>
+<p>The linear output <span class="math inline">\(z\)</span> is passed through the <strong>sigmoid function</strong> to obtain the probability:</p>
+<p><span class="math display">\[
+P(y=1|X) = \sigma(z) = \frac{1}{1 + e^{-z}}
+\]</span></p>
+<p>Where:<br>
+- <span class="math inline">\(P(y=1|X)\)</span>: Probability of the positive class<br>
+- <span class="math inline">\(\sigma(z)\)</span>: Sigmoid function</p>
+<hr>
+<p><strong>3. Decision Rule</strong></p>
+<p>To make a prediction, compare the probability to a threshold (typically 0.5):</p>
+<p><span class="math display">\[
+\hat{y} =
+\begin{cases}
+1 &amp; \text{if } P(y=1|X) \geq 0.5 \\
+0 &amp; \text{otherwise}
+\end{cases}
+\]</span></p>
+<hr>
+</section>
+<section id="gradient-boosting" class="level3">
+<h3 class="anchored" data-anchor-id="gradient-boosting"><strong>Gradient Boosting</strong></h3>
+<p>Gradient Boosting is an ensemble learning technique that builds models sequentially, where each new model corrects the errors of the previous ones. It works for both regression and classification tasks by combining multiple weak models (typically decision trees) into a strong model.</p>
+<hr>
+<p><strong>1. Start with a Simple Model</strong></p>
+<p>The initial prediction is usually a constant value, such as the average value for regression:</p>
+<p><span class="math display">\[
+F_0(x) = \arg \min_{\gamma} \sum_{i=1}^{m} L(y_i, \gamma)
+\]</span></p>
+<p>Where:<br>
+- <span class="math inline">\(F_0(x)\)</span>: Initial prediction<br>
+- <span class="math inline">\(L(y_i, \gamma)\)</span>: Loss function between true value <span class="math inline">\(y_i\)</span>and prediction <span class="math inline">\(\gamma\)</span></p>
+<hr>
+<p><strong>2. Iteratively Update the Model</strong></p>
+<p>Each new tree corrects the previous model’s errors by minimizing the loss function <span class="math inline">\(L(y, F(x))\)</span>. The update rule is:</p>
+<p><span class="math display">\[
+F_t(x) = F_{t-1}(x) + \eta h_t(x)
+\]</span></p>
+<p>Where:<br>
+- <span class="math inline">\(F_t(x)\)</span>: Current model<br>
+- <span class="math inline">\(F_{t-1}(x)\)</span>: Previous model<br>
+- <span class="math inline">\(h_t(x)\)</span>: New tree (weak learner)<br>
+- <span class="math inline">\(\eta\)</span>: Learning rate (controls update size)</p>
+<hr>
+<p><strong>3. Final Prediction</strong></p>
+<p>After <span class="math inline">\(T\)</span> iterations, the final model becomes:</p>
+<p><span class="math display">\[
+F_T(x) = F_0(x) + \sum_{t=1}^{T} \eta h_t(x)
+\]</span></p>
+</section>
+</section>
+<section id="code" class="level1">
+<h1>Code</h1>
+<div id="cell-3" class="cell" data-execution_count="32">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, cross_val_score</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report, confusion_matrix, mean_squared_error, r2_score, accuracy_score</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler, LabelEncoder</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingClassifier</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error, mean_squared_error, r2_score</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor, GradientBoostingRegressor</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-4" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>who_data <span class="op">=</span> pd.read_csv(<span class="st">'../../data/processed-data/who_pivoted_data_with_classes.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="data-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="data-preprocessing">Data Preprocessing</h2>
+<section id="feature-selection-1" class="level3">
+<h3 class="anchored" data-anchor-id="feature-selection-1">Feature Selection</h3>
+<p>Based on the correlation heatmap analysis, features strongly related to key health indicators were retained, while highly correlated or redundant features were removed to reduce multicollinearity and improve model interpretability. The retained features included <code>BMI</code>, <code>Diabetes_Crude</code>, <code>Hypertension_Control</code>, <code>Hypertension_Prevalence</code>, and <code>Gender</code>, relevant for predicting chronic diseases.</p>
+<p><code>Diabetes_AgeStd</code> was dropped due to its high correlation with <code>Diabetes_Crude</code>, offering similar information. Similarly, <code>Hypertension_Treatment</code> overlapped with <code>Hypertension_Control</code>, making the latter more suitable for analysis. This reduction in feature redundancy minimized model complexity, reduced overfitting risk, and enhanced generalization to unseen data.</p>
+<div id="cell-8" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>features_to_drop <span class="op">=</span> [<span class="st">'Diabetes_AgeStd'</span>, <span class="st">'Hypertension_Treatment'</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>who_data_preprocessed <span class="op">=</span> who_data.drop(columns<span class="op">=</span>features_to_drop)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="standardization-1" class="level3">
+<h3 class="anchored" data-anchor-id="standardization-1">Standardization</h3>
+<p>This part standardizes selected features in the dataset to ensure they have a mean of <span class="math inline">\(0\)</span> and a standard deviation of <span class="math inline">\(1\)</span>. The features to be scaled include <code>BMI</code>, <code>Diabetes_Crude</code>, <code>Hypertension_Control</code>, and <code>Hypertension_Prevalence</code>. Using <code>StandardScaler()</code> from <code>sklearn</code>, the scaling process transforms the data, making features comparable despite differences in their original scales. Standardization is essential because features with larger numerical ranges could dominate the learning process, causing the model to weigh them more heavily. By scaling the data, the model treats all features equally, improving convergence speed and model performance. After scaling, a sample of the standardized data is printed to verify the transformation.</p>
+<div id="cell-11" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>features_to_scale <span class="op">=</span> [<span class="st">'BMI'</span>, <span class="st">'Diabetes_Crude'</span>, <span class="st">'Hypertension_Control'</span>, <span class="st">'Hypertension_Prevalence'</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>who_data_preprocessed[features_to_scale] <span class="op">=</span> scaler.fit_transform(who_data_preprocessed[features_to_scale])</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Standardized Data Sample:"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(who_data_preprocessed[features_to_scale].head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Standardized Data Sample:
+        BMI  Diabetes_Crude  Hypertension_Control  Hypertension_Prevalence
+0 -1.669477       -0.090981             -0.799472                -0.308860
+1 -1.591245       -0.049513             -0.730982                 0.024973
+2 -1.747709       -0.135239             -0.879376                -0.657868
+3 -1.591245       -0.058725             -0.788057                -0.308860
+4 -1.513012       -0.014460             -0.719567                 0.024973</code></pre>
+</div>
+</div>
+</section>
+<section id="encoding-categorical-variables-1" class="level3">
+<h3 class="anchored" data-anchor-id="encoding-categorical-variables-1">Encoding Categorical Variables</h3>
+<p>This part encodes categorical variables <code>Gender</code> and <code>health_status</code> using <code>LabelEncoder()</code> from <code>sklearn</code>. Encoding converts categorical values into numeric representations, making them suitable for machine learning models.</p>
+<ul>
+<li><strong>Gender Encoding:</strong> The <code>Gender</code> column is transformed into numeric values where each unique category is assigned an integer.<br>
+</li>
+<li><strong>Health Status Encoding:</strong> The <code>health_status</code> column is similarly encoded into numeric labels, enabling the model to interpret the categorical health status values.</li>
+</ul>
+<div id="cell-14" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Encode categorical variables</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>label_encoder <span class="op">=</span> LabelEncoder()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>who_data_preprocessed[<span class="st">'Gender'</span>] <span class="op">=</span> label_encoder.fit_transform(who_data_preprocessed[<span class="st">'Gender'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-15" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>who_data_preprocessed[<span class="st">'health_status_encoded'</span>] <span class="op">=</span> label_encoder.fit_transform(who_data_preprocessed[<span class="st">'health_status'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-16" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(who_data_preprocessed.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  location                 region  year  Gender       BMI  risk_level  \
+0      AFG  Eastern Mediterranean  1990       0 -1.669477           0   
+1      AFG  Eastern Mediterranean  1990       1 -1.591245           0   
+2      AFG  Eastern Mediterranean  1990       2 -1.747709           0   
+3      AFG  Eastern Mediterranean  1991       0 -1.591245           0   
+4      AFG  Eastern Mediterranean  1991       1 -1.513012           0   
+
+  health_status  Diabetes_Crude  Hypertension_Control  \
+0      Low Risk       -0.090981             -0.799472   
+1      Low Risk       -0.049513             -0.730982   
+2      Low Risk       -0.135239             -0.879376   
+3      Low Risk       -0.058725             -0.788057   
+4      Low Risk       -0.014460             -0.719567   
+
+   Hypertension_Prevalence  health_status_encoded  
+0                -0.308860                      1  
+1                 0.024973                      1  
+2                -0.657868                      1  
+3                -0.308860                      1  
+4                 0.024973                      1  </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="binary-classification" class="level2">
+<h2 class="anchored" data-anchor-id="binary-classification">Binary Classification</h2>
+<p>In the binary classification task, I compared the performance of different models, including <strong>Logistic Regression</strong> and <strong>Random Forest</strong>, to predict the target variable <code>risk_level</code>. The evaluation process involved training the models, assessing their performance through <strong>accuracy</strong>, <strong>precision</strong>, <strong>recall</strong>, and <strong>F1-scores</strong>, and conducting <strong>cross-validation</strong> for stability checks.</p>
+<p>I selected <strong>Logistic Regression</strong> and <strong>Random Forest</strong> due to their complementary strengths in binary classification tasks. <strong>Logistic Regression</strong> is a simple, interpretable model that works well with linearly separable data, offering probabilistic predictions and insights into feature importance. In contrast, <strong>Random Forest</strong> is a robust ensemble method that captures complex, non-linear relationships by combining multiple decision trees. It handles feature interactions effectively and mitigates overfitting through averaging.</p>
+<p>To ensure model reliability and robustness, I tested the models against <strong>random noise</strong> and examined the <strong>depth of decision trees</strong> in the Random Forest model. I also performed <strong>feature importance analysis</strong> to understand the contribution of key predictors. These steps helped us select the most suitable model by balancing high accuracy, interpretability, and generalization ability while minimizing the risk of overfitting.</p>
+<div id="cell-19" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define features and target variables</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> who_data_preprocessed.drop(columns<span class="op">=</span>[<span class="st">'risk_level'</span>, <span class="st">'health_status'</span>, <span class="st">'health_status_encoded'</span>, <span class="st">'location'</span>, <span class="st">'region'</span>])</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> who_data_preprocessed[<span class="st">'risk_level'</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>model_logreg <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>model_rf <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>model_logreg.fit(X_train, y_train)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>model_rf.fit(X_train, y_train)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the model and visualize the confusion matrix</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> {<span class="st">'Logistic Regression'</span>: model_logreg, <span class="st">'Random Forest'</span>: model_rf}</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, model <span class="kw">in</span> models.items():</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    conf_matrix <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Model: </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Confusion Matrix:"</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(conf_matrix)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Classification Report:"</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(classification_report(y_test, y_pred))</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>accuracy_score(y_test, y_pred)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    sns.heatmap(conf_matrix, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>, </span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>                xticklabels<span class="op">=</span>[<span class="st">'Low Risk'</span>, <span class="st">'High Risk'</span>], yticklabels<span class="op">=</span>[<span class="st">'Low Risk'</span>, <span class="st">'High Risk'</span>])</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> - Confusion Matrix'</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Predicted Label'</span>)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'True Label'</span>)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Model: Logistic Regression
+Confusion Matrix:
+[[2118   13]
+ [   0 2486]]
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      0.99      1.00      2131
+           1       0.99      1.00      1.00      2486
+
+    accuracy                           1.00      4617
+   macro avg       1.00      1.00      1.00      4617
+weighted avg       1.00      1.00      1.00      4617
+
+Accuracy: 0.9972</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Model: Random Forest
+Confusion Matrix:
+[[2131    0]
+ [   0 2486]]
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00      2131
+           1       1.00      1.00      1.00      2486
+
+    accuracy                           1.00      4617
+   macro avg       1.00      1.00      1.00      4617
+weighted avg       1.00      1.00      1.00      4617
+
+Accuracy: 1.0000</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-9-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The evaluation of Logistic Regression and Random Forest models demonstrated strong performance in predicting <code>risk_level</code>. For <strong>Logistic Regression</strong>, the confusion matrix showed <span class="math inline">\(13\)</span> misclassified samples in the low-risk category, while all high-risk samples were correctly classified. The model achieved a precision of <span class="math inline">\(1.00\)</span>, recall of <span class="math inline">\(0.99\)</span>, F1-score of <span class="math inline">\(1.00\)</span>, and an overall accuracy of <span class="math inline">\(99.72\%\)</span>, indicating near-perfect performance with minimal misclassification.</p>
+<p>In contrast, the <strong>Random Forest</strong> model achieved perfect classification, with no misclassified samples in either category. Its confusion matrix reflected flawless predictions, leading to a precision, recall, F1-score, and accuracy of <span class="math inline">\(1.00\)</span> across all metrics. These results highlight the model’s exceptional ability to distinguish between low and high-risk samples without any prediction errors.</p>
+<p>To improve model performance and prevent overfitting, several strategies can be implemented. Since the Random Forest model achieved 100% accuracy, there is a potential risk of overfitting. This issue can be mitigated by tuning hyperparameters such as <code>max_depth</code>, <code>n_estimators</code>, and <code>min_samples_split</code> to reduce model complexity. Additionally, conducting cross-validation helps ensure model robustness and stability by evaluating its performance on different data splits, enhancing its generalization ability to unseen data.</p>
+<section id="cross-validation" class="level3">
+<h3 class="anchored" data-anchor-id="cross-validation">Cross Validation</h3>
+<div id="cell-22" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate model performance using 5-fold cross-validation</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>rf_scores <span class="op">=</span> cross_val_score(model_rf, X, y, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>logreg_scores <span class="op">=</span> cross_val_score(model_logreg, X, y, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Random Forest Accuracy: </span><span class="sc">{</span>rf_scores<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss"> (+/- </span><span class="sc">{</span>rf_scores<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss">)"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Logistic Regression Accuracy: </span><span class="sc">{</span>logreg_scores<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss"> (+/- </span><span class="sc">{</span>logreg_scores<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest Accuracy: 1.0000 (+/- 0.0000)
+Logistic Regression Accuracy: 0.9986 (+/- 0.0014)</code></pre>
+</div>
+</div>
+<p>The evaluation of the models through cross-validation revealed notable performance metrics. <strong>Random Forest</strong> achieved a perfect mean accuracy of <span class="math inline">\(100\%\)</span> with a standard deviation of <span class="math inline">\(0.0000\)</span>, indicating exceptional stability across all cross-validation folds with no classification errors. However, this flawless performance raises concerns about potential overfitting, suggesting that the model might be too optimized for the training data.</p>
+<p>In contrast, <strong>Logistic Regression</strong> achieved a mean accuracy of <span class="math inline">\(99.86\%\)</span> with a standard deviation of <span class="math inline">\(0.0014\)</span>. Although slightly lower than Random Forest, its accuracy remained close to perfect. The small standard deviation indicates consistent performance across different data splits.</p>
+<p>To address this, further evaluation steps were conducted to test the model’s robustness. These included tuning hyperparameters such as <code>max_depth</code>, <code>n_estimators</code>, and <code>min_samples_split</code>, conducting feature importance analysis, and introducing noise to the dataset.</p>
+</section>
+<section id="hyperparameter-tuning" class="level3">
+<h3 class="anchored" data-anchor-id="hyperparameter-tuning">Hyperparameter Tuning</h3>
+<p>Hyperparameter tuning is a critical step in supervised learning to optimize model performance by finding the best set of parameters for a given algorithm. In this case, a <strong>Random Forest Classifier</strong> is fine-tuned using <strong>GridSearchCV</strong>, which systematically evaluates all possible combinations of hyperparameters specified in a grid. The parameters being tuned include: - <strong><code>n_estimators</code></strong>: The number of trees in the forest. - <strong><code>max_depth</code></strong>: The maximum depth of each decision tree. - <strong><code>min_samples_split</code></strong>: The minimum number of samples required to split an internal node. - <strong><code>min_samples_leaf</code></strong>: The minimum number of samples required to be at a leaf node.</p>
+<p>Using <strong>5-fold cross-validation</strong> and <code>accuracy</code> as the evaluation metric, GridSearchCV iterates over the parameter grid and identifies the combination that achieves the highest accuracy on the training data. Once the optimal model is found, the feature importances are extracted and visualized.</p>
+<div id="cell-26" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>],</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: [<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="va">None</span>],</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(estimator<span class="op">=</span>model_rf, param_grid<span class="op">=</span>param_grid, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Optimal Parameter: </span><span class="sc">{</span>grid_search<span class="sc">.</span>best_params_<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Optimal Accuracy: </span><span class="sc">{</span>grid_search<span class="sc">.</span>best_score_<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>importances <span class="op">=</span> grid_search.best_estimator_.feature_importances_</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>feature_names <span class="op">=</span> X.columns</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize Feature Importance</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>plt.barh(feature_names, importances, color<span class="op">=</span><span class="st">'skyblue'</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Feature Importance in Random Forest Model'</span>)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Importance'</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Features'</span>)</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimal Parameter: {'max_depth': 5, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 100}
+Optimal Accuracy: 1.0000</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The <strong>Random Forest model</strong> achieved an optimal accuracy of <strong>1.0000</strong> during the hyperparameter tuning process, indicating perfect performance on the training data. The optimal parameters selected by <strong>GridSearchCV</strong> include: <code>max_depth=5</code>, <code>min_samples_leaf=1</code>, <code>min_samples_split=2</code>, and <code>n_estimators=100</code>. While this exceptionally high accuracy suggests that the model is very well-suited to the training dataset, it may also be a sign of <strong>overfitting</strong>, especially if the dataset is small or lacks complexity. Further evaluation on a separate test set or validation data is necessary to confirm its generalization ability.</p>
+<p>The <strong>feature importance analysis</strong> provides critical insights into the contribution of each feature to the model’s predictions. From the bar chart: 1. <strong>BMI</strong> stands out as the most influential feature, with an importance score exceeding <strong>0.7</strong>. This result highlights the significant role of BMI in predicting health outcomes, as it is strongly linked to conditions like diabetes and hypertension. 2. <strong>Hypertension_Control</strong> and <strong>Diabetes_Crude</strong> follow, contributing moderately to the model. These features add value by capturing specific health indicators related to the dataset’s targets. 3. <strong>Hypertension_Prevalence</strong> has a minor but noticeable impact, suggesting some influence in predicting outcomes, though less critical than the previously mentioned features. 4. <strong>Gender</strong> and <strong>Year</strong> contribute minimally, indicating that they provide very limited predictive power in this particular model.</p>
+<p>In conclusion, the dominance of <strong>BMI</strong> suggests that managing BMI could be a key factor in addressing related health risks.</p>
+</section>
+<section id="simplified-feature-set" class="level3">
+<h3 class="anchored" data-anchor-id="simplified-feature-set">Simplified Feature Set</h3>
+<p>In this section, we aim to evaluate the performance of a <strong>Random Forest Classifier</strong> using a simplified feature set. By selecting only three key features – <strong>BMI</strong>, <strong>Diabetes_Crude</strong>, and <strong>Hypertension_Control</strong> – we test the model’s ability to maintain high accuracy while reducing computational complexity and focusing on the most important predictors identified in the previous feature importance analysis.</p>
+<p>The dataset is split into training and testing sets using a 70-30 split. A <strong>Random Forest Classifier</strong> is then trained with the previously optimized hyperparameters: <code>max_depth=5</code>, <code>n_estimators=100</code>, <code>min_samples_split=2</code>, and <code>min_samples_leaf=1</code>. By limiting the model to only the most relevant features, we aim to assess whether the simplified feature set retains sufficient predictive power for classifying risk levels.</p>
+<p>The model’s performance is evaluated using metrics such as the <strong>confusion matrix</strong>, <strong>classification report</strong>, and <strong>accuracy score</strong>. The confusion matrix is visualized as a heatmap to clearly illustrate the distribution of true and predicted labels, enabling a straightforward assessment of the model’s strengths and weaknesses in distinguishing between low-risk and high-risk categories. This analysis helps validate the importance of the selected features and demonstrates whether further dimensionality reduction impacts the model’s accuracy.</p>
+<div id="cell-30" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>selected_features <span class="op">=</span> [<span class="st">'BMI'</span>, <span class="st">'Diabetes_Crude'</span>, <span class="st">'Hypertension_Control'</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>X_simplified <span class="op">=</span> who_data_preprocessed[selected_features]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> who_data_preprocessed[<span class="st">'risk_level'</span>]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X_simplified, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>model_rf_simplified <span class="op">=</span> RandomForestClassifier(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    max_depth<span class="op">=</span><span class="dv">5</span>, </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">100</span>, </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    min_samples_split<span class="op">=</span><span class="dv">2</span>, </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    min_samples_leaf<span class="op">=</span><span class="dv">1</span>, </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>model_rf_simplified.fit(X_train, y_train)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>y_pred_simplified <span class="op">=</span> model_rf_simplified.predict(X_test)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Simplified - Random Forest Model Performance Evaluation:"</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Confusion Matrix:"</span>)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="op">=</span> confusion_matrix(y_test, y_pred_simplified)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(conf_matrix)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Classification Report:"</span>)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred_simplified))</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>accuracy_score(y_test, y_pred_simplified)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>sns.heatmap(conf_matrix, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>, xticklabels<span class="op">=</span>[<span class="st">'Low Risk'</span>, <span class="st">'High Risk'</span>], yticklabels<span class="op">=</span>[<span class="st">'Low Risk'</span>, <span class="st">'High Risk'</span>])</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Confusion Matrix Heatmap'</span>)</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted Label'</span>)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'True Label'</span>)</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simplified - Random Forest Model Performance Evaluation:
+Confusion Matrix:
+[[2131    0]
+ [   0 2486]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00      2131
+           1       1.00      1.00      1.00      2486
+
+    accuracy                           1.00      4617
+   macro avg       1.00      1.00      1.00      4617
+weighted avg       1.00      1.00      1.00      4617
+
+Accuracy: 1.0000</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-12-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The performance of the <strong>simplified Random Forest model</strong> using only three features – <code>BMI</code>, <code>Diabetes_Crude</code>, and <code>Hypertension_Control</code> – demonstrates exceptional results. The confusion matrix reveals perfect predictions, with <strong>no misclassifications</strong> observed across both “Low Risk” and “High Risk” categories. Specifically, the model correctly predicted all <strong>2131 Low Risk</strong> cases and all <strong>2486 High Risk</strong> cases.</p>
+<p>The classification report further reinforces the model’s outstanding performance, with a <strong>precision, recall, and F1-score of 1.00</strong> for both classes. The overall accuracy of <strong>100%</strong> indicates that the simplified model effectively captures the patterns in the data despite using fewer features. This highlights the significant predictive power of the selected features and suggests that these variables are strong indicators of risk levels.</p>
+</section>
+<section id="random-forest-tree-depth-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest-tree-depth-analysis">Random Forest Tree Depth Analysis</h3>
+<p>In this section, I analyze the depth of the individual decision trees within the Random Forest model. The depth of a tree is an important factor that influences the model’s complexity and ability to capture patterns in the data. By examining the average and maximum tree depths, we can assess the overall structure of the forest and ensure that the model balances learning capability with generalization. This step helps confirm whether the model’s hyperparameters, such as <code>max_depth</code>, are effectively controlling tree growth to prevent overfitting.</p>
+<div id="cell-34" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the depth of each decision tree in the Random Forest model</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>tree_depths <span class="op">=</span> [estimator.tree_.max_depth <span class="cf">for</span> estimator <span class="kw">in</span> model_rf_simplified.estimators_]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the average and maximum tree depths</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average Tree Depth: </span><span class="sc">{</span>np<span class="sc">.</span>mean(tree_depths)<span class="sc">:.2f}</span><span class="ss">, Maximum Tree Depth: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">max</span>(tree_depths)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average Tree Depth: 3.21, Maximum Tree Depth: 5</code></pre>
+</div>
+</div>
+<p>The average tree depth of <strong>3.21</strong> and the maximum tree depth of <strong>5</strong> indicate a well-balanced and moderate level of complexity in the Random Forest model. This suggests that the model is not overly deep, reducing the risk of overfitting while still capturing meaningful patterns in the data.</p>
+</section>
+<section id="introducing-noise" class="level3">
+<h3 class="anchored" data-anchor-id="introducing-noise">Introducing Noise</h3>
+<p>This section introduces random noise into the test data to evaluate the model’s robustness. By slightly perturbing the feature values with random noise, we can observe how well the Random Forest model maintains its accuracy under less ideal conditions. This test helps verify the model’s stability and resistance to small fluctuations in the input data.</p>
+<div id="cell-38" class="cell" data-execution_count="30">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add random noise to the test data</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>X_noisy <span class="op">=</span> X_test.copy()</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>noise <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.1</span>, X_noisy.shape)  <span class="co"># Generate Gaussian noise with mean 0 and standard deviation 0.1</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>X_noisy <span class="op">+=</span> noise  <span class="co"># Add noise to the test data</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict using the noisy test data</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>y_noisy_pred <span class="op">=</span> model_rf_simplified.predict(X_noisy)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the model's performance on noisy data</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy after adding noise:"</span>, accuracy_score(y_test, y_noisy_pred))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy after adding noise: 0.9698938704786658</code></pre>
+</div>
+</div>
+<p>The accuracy of <strong>96.99%</strong> after introducing random noise to the test data demonstrates that the Random Forest model remains highly robust and stable under slight perturbations in the input features. Despite the addition of Gaussian noise with a standard deviation of 0.1, the model’s performance only experienced a minor decline from its original perfect accuracy.</p>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>In the binary classification task, we compared the performance of different models, including Logistic Regression and Random Forest, to determine the most suitable model for predicting <code>risk_level</code>.</p>
+<p>Random Forest achieved a perfect accuracy of 100% on both the training and testing datasets, outperforming other models. However, such high accuracy raised concerns about potential overfitting. To address this, we conducted several evaluations to validate the model’s reliability. First, cross-validation was performed, which showed consistent accuracy of 100% across different data splits, indicating strong stability and no signs of overfitting.</p>
+<p>Second, we introduced random noise into the test data to assess the model’s robustness. The accuracy slightly decreased to 96.84%, demonstrating that the model maintained high performance even under noisy conditions.</p>
+<p>Finally, we examined the average and maximum depths of the decision trees within the Random Forest, which were 3.21 and 5, respectively. These values suggest that the model complexity is moderate, reducing the likelihood of overfitting.</p>
+<p>Based on these evaluations, we concluded that Random Forest is the best choice for this binary classification task, providing both high accuracy and strong generalization ability.</p>
+</section>
+</section>
+<section id="multiclass-classification" class="level2">
+<h2 class="anchored" data-anchor-id="multiclass-classification">Multiclass Classification</h2>
+<section id="data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
+<p>In this section, I prepare the data for a multiclass classification task. The features <code>BMI</code>, <code>Diabetes_Crude</code>, and <code>Hypertension_Control</code> are selected as input variables, while <code>health_status_encoded</code> serves as the target variable representing multiple health status categories. The dataset is split into training and test sets using a <span class="math inline">\(70\)</span> - <span class="math inline">\(30\)</span> split to ensure a robust evaluation of the model’s performance. The <code>random_state</code> parameter is set to <span class="math inline">\(42\)</span> for reproducibility, allowing consistent results across runs. This setup lays the foundation for training and testing a classification model that can predict health status based on the selected features.</p>
+<div id="cell-45" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Features and target for multiclass classification</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>X_multiclass <span class="op">=</span> who_data_preprocessed[[<span class="st">'BMI'</span>, <span class="st">'Diabetes_Crude'</span>, <span class="st">'Hypertension_Control'</span>]]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>y_multiclass <span class="op">=</span> who_data_preprocessed[<span class="st">'health_status_encoded'</span>]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>X_train_mc, X_test_mc, y_train_mc, y_test_mc <span class="op">=</span> train_test_split(</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    X_multiclass, y_multiclass, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="model-selection" class="level3">
+<h3 class="anchored" data-anchor-id="model-selection">Model Selection</h3>
+<p>I will use the same features as in the binary classification task (BMI, Diabetes_Crude, and Hypertension_Control) for simplicity. Random forest classifier, Logistic Regression and Gradient Boosting models are applied to the data.</p>
+<section id="random-forest-classifier" class="level4">
+<h4 class="anchored" data-anchor-id="random-forest-classifier">Random Forest Classifier</h4>
+<div id="cell-49" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train Random Forest for multiclass classification</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>rf_mc <span class="op">=</span> RandomForestClassifier(max_depth<span class="op">=</span><span class="dv">5</span>, n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>rf_mc.fit(X_train_mc, y_train_mc)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions and evaluation</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>y_pred_mc_rf <span class="op">=</span> rf_mc.predict(X_test_mc)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Random Forest - Multiclass Classification Performance"</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Confusion Matrix:"</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>conf_matrix_rf <span class="op">=</span> confusion_matrix(y_test_mc, y_pred_mc_rf)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(conf_matrix_rf)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Classification Report:"</span>)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test_mc, y_pred_mc_rf))</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>accuracy_score(y_test_mc, y_pred_mc_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion Matrix Heatmap</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>sns.heatmap(conf_matrix_rf, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>, xticklabels<span class="op">=</span>[<span class="st">'Low'</span>, <span class="st">'Moderate'</span>, <span class="st">'High'</span>], yticklabels<span class="op">=</span>[<span class="st">'Low'</span>, <span class="st">'Moderate'</span>, <span class="st">'High'</span>])</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Random Forest - Multiclass Confusion Matrix'</span>)</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted Label'</span>)</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'True Label'</span>)</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest - Multiclass Classification Performance
+Confusion Matrix:
+[[ 847    0    3]
+ [   0 3029    0]
+ [   0    9  729]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00       850
+           1       1.00      1.00      1.00      3029
+           2       1.00      0.99      0.99       738
+
+    accuracy                           1.00      4617
+   macro avg       1.00      0.99      1.00      4617
+weighted avg       1.00      1.00      1.00      4617
+
+Accuracy: 0.9974</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="logistic-regression-1" class="level4">
+<h4 class="anchored" data-anchor-id="logistic-regression-1">Logistic Regression</h4>
+<div id="cell-51" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train Logistic Regression for multiclass classification</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>lr_mc <span class="op">=</span> LogisticRegression(multi_class<span class="op">=</span><span class="st">'multinomial'</span>, solver<span class="op">=</span><span class="st">'lbfgs'</span>, max_iter<span class="op">=</span><span class="dv">500</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>lr_mc.fit(X_train_mc, y_train_mc)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions and evaluation</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>y_pred_mc_lr <span class="op">=</span> lr_mc.predict(X_test_mc)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Logistic Regression - Multiclass Classification Performance"</span>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Confusion Matrix:"</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>conf_matrix_lr <span class="op">=</span> confusion_matrix(y_test_mc, y_pred_mc_lr)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(conf_matrix_lr)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Classification Report:"</span>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test_mc, y_pred_mc_lr))</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>accuracy_score(y_test_mc, y_pred_mc_lr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion Matrix Heatmap</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>sns.heatmap(conf_matrix_lr, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">'Greens'</span>, xticklabels<span class="op">=</span>[<span class="st">'Low'</span>, <span class="st">'Moderate'</span>, <span class="st">'High'</span>], yticklabels<span class="op">=</span>[<span class="st">'Low'</span>, <span class="st">'Moderate'</span>, <span class="st">'High'</span>])</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Logistic Regression - Multiclass Confusion Matrix'</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted Label'</span>)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'True Label'</span>)</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Logistic Regression - Multiclass Classification Performance
+Confusion Matrix:
+[[ 840    5    5]
+ [   3 2949   77]
+ [  10  109  619]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.98      0.99      0.99       850
+           1       0.96      0.97      0.97      3029
+           2       0.88      0.84      0.86       738
+
+    accuracy                           0.95      4617
+   macro avg       0.94      0.93      0.94      4617
+weighted avg       0.95      0.95      0.95      4617
+
+Accuracy: 0.9547</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/opt/venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:1247: FutureWarning: 'multi_class' was deprecated in version 1.5 and will be removed in 1.7. From then on, it will always use 'multinomial'. Leave it to its default value to avoid this warning.
+  warnings.warn(</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-17-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="gradient-boosting-1" class="level4">
+<h4 class="anchored" data-anchor-id="gradient-boosting-1">Gradient Boosting</h4>
+<div id="cell-53" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingClassifier</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Train Gradient Boosting for multiclass classification</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>gb_mc <span class="op">=</span> GradientBoostingClassifier(max_depth<span class="op">=</span><span class="dv">5</span>, n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>gb_mc.fit(X_train_mc, y_train_mc)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions and evaluation</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>y_pred_mc_gb <span class="op">=</span> gb_mc.predict(X_test_mc)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gradient Boosting - Multiclass Classification Performance"</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Confusion Matrix:"</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>conf_matrix_gb <span class="op">=</span> confusion_matrix(y_test_mc, y_pred_mc_gb)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(conf_matrix_gb)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Classification Report:"</span>)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test_mc, y_pred_mc_gb))</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>accuracy_score(y_test_mc, y_pred_mc_gb)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion Matrix Heatmap</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>sns.heatmap(conf_matrix_gb, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">'Oranges'</span>, xticklabels<span class="op">=</span>[<span class="st">'Low'</span>, <span class="st">'Moderate'</span>, <span class="st">'High'</span>], yticklabels<span class="op">=</span>[<span class="st">'Low'</span>, <span class="st">'Moderate'</span>, <span class="st">'High'</span>])</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Gradient Boosting - Multiclass Confusion Matrix'</span>)</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted Label'</span>)</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'True Label'</span>)</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gradient Boosting - Multiclass Classification Performance
+Confusion Matrix:
+[[ 850    0    0]
+ [   0 3029    0]
+ [   0    0  738]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00       850
+           1       1.00      1.00      1.00      3029
+           2       1.00      1.00      1.00       738
+
+    accuracy                           1.00      4617
+   macro avg       1.00      1.00      1.00      4617
+weighted avg       1.00      1.00      1.00      4617
+
+Accuracy: 1.0000</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-comparison" class="level4">
+<h4 class="anchored" data-anchor-id="model-comparison">Model Comparison</h4>
+<p>In the multiclass classification task, we evaluated the performance of three models: Random Forest, Logistic Regression, and Gradient Boosting, using <code>health_status</code> as the target variable. Among the models, Gradient Boosting achieved the best performance with a perfect accuracy of 100%, successfully classifying all categories without any misclassifications. Its strength lies in handling non-linear patterns effectively, making it suitable for datasets with complex decision boundaries. Random Forest also performed exceptionally well, achieving an accuracy of 99.74%. It demonstrated minimal misclassification, with only three samples misclassified as <code>High Risk</code> instead of <code>Low Risk</code>. Random Forest’s high accuracy and robustness make it a reliable choice, especially for balanced or large datasets.</p>
+<p>On the other hand, Logistic Regression achieved an accuracy of 95.47%, with most misclassifications occurring between <code>High Risk</code> and <code>Moderate Risk</code>. Although it struggled to differentiate between overlapping classes, it remains a viable baseline model due to its simplicity and interpretability. The F1-score for <code>High Risk</code> in Logistic Regression was notably lower compared to the other two models, highlighting its limitations in handling more complex patterns.</p>
+<p>Based on the results, Gradient Boosting is recommended as the best model for this task due to its perfect classification and ability to handle intricate relationships within the data. Random Forest serves as a strong alternative with comparable performance and slightly lower computational complexity. Logistic Regression is most suitable when simplicity and ease of interpretation are prioritized. Additionally, analyzing feature importance from Gradient Boosting or Random Forest can provide valuable insights into the variables contributing most to classification accuracy.</p>
+</section>
+<section id="feature-optimization-and-addition-of-new-features" class="level4">
+<h4 class="anchored" data-anchor-id="feature-optimization-and-addition-of-new-features">Feature Optimization and Addition of New Features</h4>
+<p>In this step, the feature set is optimized by incorporating new features and analyzing their impact on the model’s performance. Based on feature importance analysis, features with near-zero importance can be removed to simplify the model and improve efficiency. Simultaneously, new features such as <code>Gender</code> and <code>Hypertension_Prevalence</code> are added to explore their contribution to predicting health status. The updated feature set includes <code>BMI</code>, <code>Diabetes_Crude</code>, <code>Hypertension_Control</code>, <code>Gender</code>, and <code>Hypertension_Prevalence</code>. The dataset is then re-split into training and test sets using the same 70-30 split and a fixed random state for reproducibility. This refined feature selection aims to improve model accuracy and robustness by leveraging a more comprehensive set of predictors.</p>
+<div id="cell-58" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add new features  </span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the new feature set  </span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>X_new_features <span class="op">=</span> who_data_preprocessed[[<span class="st">'BMI'</span>, <span class="st">'Diabetes_Crude'</span>, <span class="st">'Hypertension_Control'</span>, <span class="st">'Gender'</span>, <span class="st">'Hypertension_Prevalence'</span>]]</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-split the data  </span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>X_train_mc_new, X_test_mc_new, y_train_mc_new, y_test_mc_new <span class="op">=</span> train_test_split(</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    X_new_features, y_multiclass, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="random-forest-classifier-1" class="level5">
+<h5 class="anchored" data-anchor-id="random-forest-classifier-1">Random Forest Classifier</h5>
+<div id="cell-60" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>rf_mc_new <span class="op">=</span> RandomForestClassifier(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    max_depth<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>rf_mc_new.fit(X_train_mc_new, y_train_mc_new)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>y_pred_rf_mc_new <span class="op">=</span> rf_mc_new.predict(X_test_mc_new)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Random Forest with New Features - Multiclass Classification Performance:"</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Confusion Matrix:"</span>)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(confusion_matrix(y_test_mc_new, y_pred_rf_mc_new))</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Classification Report:"</span>)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test_mc_new, y_pred_rf_mc_new, target_names<span class="op">=</span>[<span class="st">'Low'</span>, <span class="st">'Moderate'</span>, <span class="st">'High'</span>]))</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>accuracy_score(y_test_mc_new, y_pred_rf_mc_new)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest with New Features - Multiclass Classification Performance:
+Confusion Matrix:
+[[ 847    0    3]
+ [   0 3029    0]
+ [   0    0  738]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         Low       1.00      1.00      1.00       850
+    Moderate       1.00      1.00      1.00      3029
+        High       1.00      1.00      1.00       738
+
+    accuracy                           1.00      4617
+   macro avg       1.00      1.00      1.00      4617
+weighted avg       1.00      1.00      1.00      4617
+
+Accuracy: 0.9994</code></pre>
+</div>
+</div>
+</section>
+<section id="gradient-boosting-classifier" class="level5">
+<h5 class="anchored" data-anchor-id="gradient-boosting-classifier">Gradient Boosting Classifier</h5>
+<div id="cell-62" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingClassifier</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>gb_mc_new <span class="op">=</span> GradientBoostingClassifier(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    max_depth<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>gb_mc_new.fit(X_train_mc_new, y_train_mc_new)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>y_pred_gb_mc_new <span class="op">=</span> gb_mc_new.predict(X_test_mc_new)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gradient Boosting with New Features - Multiclass Classification Performance:"</span>)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Confusion Matrix:"</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(confusion_matrix(y_test_mc_new, y_pred_gb_mc_new))</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Classification Report:"</span>)</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test_mc_new, y_pred_gb_mc_new, target_names<span class="op">=</span>[<span class="st">'Low'</span>, <span class="st">'Moderate'</span>, <span class="st">'High'</span>]))</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>accuracy_score(y_test_mc_new, y_pred_gb_mc_new)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gradient Boosting with New Features - Multiclass Classification Performance:
+Confusion Matrix:
+[[ 850    0    0]
+ [   0 3029    0]
+ [   0    0  738]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         Low       1.00      1.00      1.00       850
+    Moderate       1.00      1.00      1.00      3029
+        High       1.00      1.00      1.00       738
+
+    accuracy                           1.00      4617
+   macro avg       1.00      1.00      1.00      4617
+weighted avg       1.00      1.00      1.00      4617
+
+Accuracy: 1.0000</code></pre>
+</div>
+</div>
+<p>In this analysis, we explored the impact of adding two new features, <code>Gender</code> and <code>Hypertension_Prevalence</code>, to the existing feature set for multiclass classification of health status (<code>Low</code>, <code>Moderate</code>, <code>High</code>). Using Gradient Boosting and Random Forest models, we evaluated whether these additional features improved model performance.</p>
+<p><strong>Model Performance with New Features</strong></p>
+<p>The inclusion of new features did not significantly alter the performance of the models, which already demonstrated near-perfect accuracy with the simplified feature set. Both models effectively utilized the additional features while maintaining exceptional classification accuracy:</p>
+<ul>
+<li><p><strong>Gradient Boosting Model</strong> achieved perfect accuracy of <strong>1.0000</strong>. All samples across the three classes were classified correctly, as shown in the confusion matrix. The classification report confirmed precision, recall, and F1-scores of <strong>1.00</strong> for all classes. This indicates that the added features complemented the model without introducing noise or redundancy.</p></li>
+<li><p><strong>Random Forest Model</strong> also achieved excellent performance with an accuracy of <strong>0.9994</strong>. The confusion matrix revealed only minimal misclassifications, with three <code>Low Risk</code> samples misclassified as ·High Risk·. Precision, recall, and F1-scores for all classes were close to <strong>1.00</strong>, confirming the model’s robustness with the new features.</p></li>
+</ul>
+<p>These results demonstrate that the models are not overly sensitive to the feature set but can effectively integrate relevant new features to maintain high performance.</p>
+</section>
+</section>
+<section id="gradient-boosting-hyperparameter-tuning" class="level4">
+<h4 class="anchored" data-anchor-id="gradient-boosting-hyperparameter-tuning">Gradient Boosting Hyperparameter Tuning</h4>
+<div id="cell-65" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameter grid</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>gb_param_grid <span class="op">=</span> {</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'learning_rate'</span>: [<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>],</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>],</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>]</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform GridSearchCV</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>gb_grid_search <span class="op">=</span> GridSearchCV(</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    estimator<span class="op">=</span>GradientBoostingClassifier(random_state<span class="op">=</span><span class="dv">42</span>),</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    param_grid<span class="op">=</span>gb_param_grid,</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">'accuracy'</span>,</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>gb_grid_search.fit(X_multiclass, y_multiclass)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract best parameters and score</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best Gradient Boosting Parameters:"</span>, gb_grid_search.best_params_)</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best Gradient Boosting Accuracy:"</span>, gb_grid_search.best_score_)</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization: Heatmap of max_depth and n_estimators</span></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame(gb_grid_search.cv_results_)</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>heatmap_data <span class="op">=</span> results.pivot_table(</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="st">'param_max_depth'</span>, columns<span class="op">=</span><span class="st">'param_n_estimators'</span>, values<span class="op">=</span><span class="st">'mean_test_score'</span></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>sns.heatmap(heatmap_data, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">".4f"</span>, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Gradient Boosting: Accuracy Heatmap"</span>)</span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"n_estimators"</span>)</span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"max_depth"</span>)</span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fitting 3 folds for each of 81 candidates, totalling 243 fits
+Best Gradient Boosting Parameters: {'learning_rate': 0.01, 'max_depth': 3, 'min_samples_split': 2, 'n_estimators': 50}
+Best Gradient Boosting Accuracy: 0.9992202729044833</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-22-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Gradient Boosting Heatmap Summary</strong></p>
+<p>The Gradient Boosting model consistently achieves near-perfect performance across all tested parameter combinations, with an accuracy of 0.9992. Variations in the number of trees (<code>n_estimators</code>) and tree depth (<code>max_depth</code>) have no significant impact on the model’s accuracy. Specifically, increasing <code>n_estimators</code> from 50 to 200 does not improve performance, indicating that even a relatively small number of trees is sufficient for this dataset. Similarly, adjusting <code>max_depth</code> between 3, 5, and 7 yields no observable changes, which suggests that the dataset is simple enough for shallow trees to effectively capture its patterns.</p>
+<p>This consistent performance highlights the robustness of the Gradient Boosting model for this dataset. It also suggests that the evaluation metric used (accuracy) may not be sensitive enough to detect subtle differences between parameter settings. Overall, the Gradient Boosting model demonstrates exceptional classification performance without requiring extensive parameter tuning, making it a strong candidate for multiclass classification tasks in this context.</p>
+</section>
+<section id="random-forest-hyperparameter-tuning" class="level4">
+<h4 class="anchored" data-anchor-id="random-forest-hyperparameter-tuning">Random Forest Hyperparameter Tuning</h4>
+<div id="cell-68" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameter grid</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>rf_param_grid <span class="op">=</span> {</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>],</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: [<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>],</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>]</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform GridSearchCV</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>rf_grid_search <span class="op">=</span> GridSearchCV(</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    estimator<span class="op">=</span>RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>),</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    param_grid<span class="op">=</span>rf_param_grid,</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">'accuracy'</span>,</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>rf_grid_search.fit(X_multiclass, y_multiclass)</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract best parameters and score</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best Random Forest Parameters:"</span>, rf_grid_search.best_params_)</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best Random Forest Accuracy:"</span>, rf_grid_search.best_score_)</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization: Heatmap of max_depth and n_estimators</span></span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>results_rf <span class="op">=</span> pd.DataFrame(rf_grid_search.cv_results_)</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>heatmap_data_rf <span class="op">=</span> results_rf.pivot_table(</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="st">'param_max_depth'</span>, columns<span class="op">=</span><span class="st">'param_n_estimators'</span>, values<span class="op">=</span><span class="st">'mean_test_score'</span></span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>sns.heatmap(heatmap_data_rf, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">".4f"</span>, cmap<span class="op">=</span><span class="st">"Greens"</span>)</span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Random Forest: Accuracy Heatmap"</span>)</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"n_estimators"</span>)</span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"max_depth"</span>)</span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fitting 3 folds for each of 81 candidates, totalling 243 fits
+Best Random Forest Parameters: {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 100}
+Best Random Forest Accuracy: 0.9993502274204028</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-23-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Random Forest Heatmap Summary</strong></p>
+<p>The Random Forest model shows excellent performance, with accuracy ranging from 0.9971 to 0.9994 depending on the parameter settings. Unlike Gradient Boosting, Random Forest demonstrates slight sensitivity to tree depth (<code>max_depth</code>). When <code>max_depth</code> is limited to 5, the model achieves a slightly lower accuracy of around 0.9971, suggesting that shallow trees are insufficient to fully capture the dataset’s complexity. However, as <code>max_depth</code> increases to 10 or 20, the accuracy improves to 0.9994, indicating that deeper trees are better suited for this task.</p>
+<p>The number of trees (<code>n_estimators</code>) has a minimal impact on performance. Accuracy stabilizes quickly with as few as 50 trees, and further increases to 100 or 200 provide diminishing returns. This finding highlights the efficiency of Random Forest, as it achieves near-optimal performance with a relatively small number of trees.</p>
+<p>Overall, Random Forest proves to be a reliable and efficient choice for multiclass classification. Its slight sensitivity to tree depth allows for meaningful parameter tuning, while its robustness ensures consistent high performance once optimal parameters are selected.</p>
+<p><strong>Best Model for Multiclass Classification</strong></p>
+<p>Based on the analysis, <strong>Gradient Boosting</strong> is identified as the most suitable model for multiclass classification in this project. Gradient Boosting achieved <strong>perfect accuracy</strong> (<strong>1.0000</strong>) on both the training and test datasets, accurately classifying all samples into their respective categories (<code>Low</code>, <code>Moderate</code>, and <code>High</code>). Its performance metrics, including precision, recall, and F1-scores, were consistently perfect across all classes, with no misclassifications observed in the confusion matrix. This level of performance highlights its ability to effectively handle the dataset’s complexity and reliably distinguish between the three health status categories.</p>
+<p>After hyperparameter tuning, Gradient Boosting maintained its robust performance, achieving a slightly adjusted accuracy of <strong>0.9992</strong> with parameters such as <code>learning_rate = 0.01</code> and <code>max_depth = 3</code>. These optimizations introduced regularization, reducing the risk of overfitting while ensuring high generalization to unseen data. Furthermore, Gradient Boosting demonstrated its capability to effectively integrate additional features, such as <code>Gender</code> and <code>Hypertension_Prevalence</code>, without compromising its performance. This adaptability underscores its suitability for handling complex feature interactions in this dataset.</p>
+<p>In comparison, <strong>Random Forest</strong> also performed exceptionally well, achieving an accuracy of <strong>0.9994</strong>; however, it exhibited minor misclassifications, such as a few <code>Low</code> risk samples being misclassified as <code>High</code>. <strong>Logistic Regression</strong>, while effective, demonstrated a lower accuracy of <strong>0.9547</strong> and struggled more with distinguishing between classes, particularly for High risk samples. These results position Gradient Boosting as the superior model for this task.</p>
+<p>Moreover, Gradient Boosting offers the advantage of interpretability through feature importance analysis, enabling insights into how different features contribute to predictions. This aligns with the project’s objective of making informed decisions based on the model’s outputs. Overall, Gradient Boosting’s perfect accuracy, robustness to hyperparameter tuning, and ability to leverage additional features make it the most reliable and suitable model for multiclass classification in this project.</p>
+</section>
+</section>
+</section>
+<section id="regression" class="level2">
+<h2 class="anchored" data-anchor-id="regression">Regression</h2>
+<section id="define-features-and-target-for-regression" class="level3">
+<h3 class="anchored" data-anchor-id="define-features-and-target-for-regression">Define Features and Target for Regression</h3>
+<p>In this regression analysis, the dependent variable (<code>y_reg</code>) is chosen as <strong><code>Diabetes_Crude</code></strong>, representing the crude prevalence of diabetes. This continuous health indicator is a key metric for understanding the impact of various health factors on diabetes rates. By predicting <strong><code>Diabetes_Crude</code></strong>, the model aims to explore the relationship between diabetes prevalence and independent variables such as BMI, Hypertension Control, Hypertension Prevalence, and Gender. These predictors are selected based on their established relevance in medical and public health studies: BMI is strongly linked to diabetes risk, hypertension control and prevalence often co-occur with diabetes, and gender differences may influence metabolic mechanisms associated with diabetes. Using <code>Diabetes_Crude</code> as the target variable allows the regression model to quantify these relationships, providing actionable insights for health professionals and policymakers to develop early intervention strategies. This choice also leverages the continuous nature of the variable, enabling precise predictions and a deeper understanding of how specific health factors influence diabetes prevalence.</p>
+<div id="cell-74" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error, mean_squared_error, r2_score</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor, GradientBoostingRegressor</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define features and target</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>X_reg <span class="op">=</span> who_data_preprocessed[[<span class="st">'BMI'</span>, <span class="st">'Hypertension_Control'</span>, <span class="st">'Hypertension_Prevalence'</span>, <span class="st">'Gender'</span>]]</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>y_reg <span class="op">=</span> who_data_preprocessed[<span class="st">'Diabetes_Crude'</span>]</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>X_train_reg, X_test_reg, y_train_reg, y_test_reg <span class="op">=</span> train_test_split(X_reg, y_reg, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="model-selection-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-selection-1">Model Selection</h3>
+<section id="linear-regression-model" class="level4">
+<h4 class="anchored" data-anchor-id="linear-regression-model">Linear Regression Model</h4>
+<div id="cell-77" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear Regression</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>lr_model <span class="op">=</span> LinearRegression()</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>lr_model.fit(X_train_reg, y_train_reg)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>y_pred_lr <span class="op">=</span> lr_model.predict(X_test_reg)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation Metrics</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Linear Regression Metrics:"</span>)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAE:"</span>, mean_absolute_error(y_test_reg, y_pred_lr))</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MSE:"</span>, mean_squared_error(y_test_reg, y_pred_lr))</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"R²:"</span>, r2_score(y_test_reg, y_pred_lr))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear Regression Metrics:
+MAE: 0.5831167917580244
+MSE: 0.5707207051160668
+R²: 0.43839855601870403</code></pre>
+</div>
+</div>
+<p><strong>Linear Regression Model</strong></p>
+<p>The Linear Regression model was trained and evaluated to predict the crude diabetes prevalence (<code>Diabetes_Crude</code>) using the selected features (<code>BMI</code>, <code>Hypertension_Control</code>, <code>Hypertension_Prevalence</code>, and <code>Gender</code>). The model’s performance metrics show moderate predictive capability with an <strong>R² score of 0.438</strong>, indicating that approximately 43.8% of the variance in diabetes prevalence can be explained by the predictors. The Mean Absolute Error (MAE) and Mean Squared Error (MSE) values are <strong>0.583</strong> and <strong>0.571</strong>, respectively, suggesting some degree of residual error in predictions. The residual plot and the “Predictions vs.&nbsp;True Values” plot further indicate that while the model captures some patterns, there is room for improvement.</p>
+</section>
+<section id="random-forest-regressor" class="level4">
+<h4 class="anchored" data-anchor-id="random-forest-regressor">Random Forest Regressor</h4>
+<div id="cell-80" class="cell" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Random Forest Regressor</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>rf_model <span class="op">=</span> RandomForestRegressor(random_state<span class="op">=</span><span class="dv">42</span>, n_estimators<span class="op">=</span><span class="dv">100</span>, max_depth<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>rf_model.fit(X_train_reg, y_train_reg)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>y_pred_rf <span class="op">=</span> rf_model.predict(X_test_reg)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation Metrics</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Random Forest Regression Metrics:"</span>)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAE:"</span>, mean_absolute_error(y_test_reg, y_pred_rf))</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MSE:"</span>, mean_squared_error(y_test_reg, y_pred_rf))</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"R²:"</span>, r2_score(y_test_reg, y_pred_rf))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest Regression Metrics:
+MAE: 0.3742803485759234
+MSE: 0.2562936692848403
+R²: 0.747801519266137</code></pre>
+</div>
+</div>
+<p><strong>Random Forest Regression Model</strong></p>
+<p>Random Forest Regression achieved better performance compared to Linear Regression, with an <strong>R² score of 0.748</strong>, explaining about 74.8% of the variance in the target variable. The MAE and MSE values were <strong>0.374</strong> and <strong>0.256</strong>, respectively, reflecting significantly reduced error levels. The feature importance plot reveals that <code>BMI</code> is the dominant predictor, followed by <code>Hypertension_Control</code> and <code>Hypertension_Prevalence</code>. This result highlights the capability of Random Forest to handle non-linear relationships and capture complex patterns in the data.</p>
+</section>
+<section id="gradient-boosting-regressor" class="level4">
+<h4 class="anchored" data-anchor-id="gradient-boosting-regressor">Gradient Boosting Regressor</h4>
+<div id="cell-83" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Boosting Regressor</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>gb_model <span class="op">=</span> GradientBoostingRegressor(random_state<span class="op">=</span><span class="dv">42</span>, learning_rate<span class="op">=</span><span class="fl">0.1</span>, n_estimators<span class="op">=</span><span class="dv">100</span>, max_depth<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>gb_model.fit(X_train_reg, y_train_reg)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>y_pred_gb <span class="op">=</span> gb_model.predict(X_test_reg)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation Metrics</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gradient Boosting Regression Metrics:"</span>)</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAE:"</span>, mean_absolute_error(y_test_reg, y_pred_gb))</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MSE:"</span>, mean_squared_error(y_test_reg, y_pred_gb))</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"R²:"</span>, r2_score(y_test_reg, y_pred_gb))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gradient Boosting Regression Metrics:
+MAE: 0.448969894409094
+MSE: 0.3519557199673348
+R²: 0.6536680047188156</code></pre>
+</div>
+</div>
+<p><strong>Gradient Boosting Regression Model</strong></p>
+<p>Gradient Boosting Regression performed better than Linear Regression but fell short of the Random Forest model. It achieved an <strong>R² score of 0.654</strong>, explaining 65.4% of the variance. The MAE and MSE values were <strong>0.449</strong> and <strong>0.352</strong>, respectively. While it effectively captures non-linear relationships, the model was slightly less accurate than Random Forest in this case. Feature importance analysis again confirmed <code>BMI</code> as the most influential variable, followed by other health indicators.</p>
+</section>
+<section id="feature-importance-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="feature-importance-analysis">Feature Importance Analysis</h4>
+<p>For non-linear models like Random Forest and Gradient Boosting, extract and visualize feature importance:</p>
+<div id="cell-87" class="cell" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature Importance from Gradient Boosting</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>importance <span class="op">=</span> gb_model.feature_importances_</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>indices <span class="op">=</span> np.argsort(importance)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Feature Importance - Gradient Boosting"</span>)</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>plt.barh(<span class="bu">range</span>(<span class="bu">len</span>(indices)), importance[indices], align<span class="op">=</span><span class="st">"center"</span>)</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>plt.yticks(<span class="bu">range</span>(<span class="bu">len</span>(indices)), [X_reg.columns[i] <span class="cf">for</span> i <span class="kw">in</span> indices])</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Importance"</span>)</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Feature Importance</strong>: Gradient Boosting and Random Forest consistently ranked <code>BMI</code> as the most critical factor influencing diabetes prevalence. The importance of <code>Hypertension_Control</code> and <code>Hypertension_Prevalence</code> suggests a strong link between blood pressure management and diabetes outcomes.</p>
+</section>
+</section>
+</section>
+<section id="visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="visualizations">Visualizations</h2>
+<section id="scatter-plot-of-predictions-vs.-true-values" class="level3">
+<h3 class="anchored" data-anchor-id="scatter-plot-of-predictions-vs.-true-values">Scatter Plot of Predictions vs.&nbsp;True Values</h3>
+<div id="cell-91" class="cell" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming y_pred_lr is from Linear Regression predictions</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>plt.scatter(y_test_reg, y_pred_lr, alpha<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Linear Regression'</span>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>plt.plot([y_test_reg.<span class="bu">min</span>(), y_test_reg.<span class="bu">max</span>()], [y_test_reg.<span class="bu">min</span>(), y_test_reg.<span class="bu">max</span>()], <span class="st">'k--'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"True Values"</span>)</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Predictions"</span>)</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Predictions vs. True Values"</span>)</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_42798/1935510651.py:6: UserWarning: color is redundantly defined by the 'color' keyword argument and the fmt string "k--" (-&gt; color='k'). The keyword argument will take precedence.
+  plt.plot([y_test_reg.min(), y_test_reg.max()], [y_test_reg.min(), y_test_reg.max()], 'k--', color='red')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-29-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Prediction vs.&nbsp;True Values Plot</strong>: The Random Forest model showed the closest alignment between predicted and true values, followed by Gradient Boosting, while Linear Regression exhibited greater dispersion.</p>
+</section>
+<section id="residual-plot" class="level3">
+<h3 class="anchored" data-anchor-id="residual-plot">Residual Plot</h3>
+<div id="cell-94" class="cell" data-execution_count="29">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Residuals for Linear Regression</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>residuals <span class="op">=</span> y_test_reg <span class="op">-</span> y_pred_lr</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(y_test_reg, residuals, alpha<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">'green'</span>)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"True Values"</span>)</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Residuals"</span>)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Residual Plot"</span>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Residual Plot</strong>: The residual plot highlights deviations from the regression line, showcasing the models’ ability to minimize prediction errors. Random Forest showed the smallest residuals, indicating its superior performance.</p>
+<p><strong>Conclusion</strong></p>
+<p>For predicting diabetes prevalence, Random Forest demonstrated the best overall performance with the highest R² and lowest errors. Its ability to model complex, non-linear relationships makes it the preferred choice for this regression task. Gradient Boosting also performed well and can serve as an alternative where interpretability of boosting steps is a priority. Linear Regression, while simpler, was less effective due to its linear assumptions and inability to capture complex interactions among features.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
